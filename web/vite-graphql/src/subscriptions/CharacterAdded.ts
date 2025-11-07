@@ -25,7 +25,7 @@ export function useCharacterAddedSubscription(
             }
           `,
           variables: {
-            bookId: bookId!,
+            bookId,
           },
           onError: onError,
           onNext: (response) => {

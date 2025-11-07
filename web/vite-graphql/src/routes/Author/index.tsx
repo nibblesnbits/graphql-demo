@@ -23,11 +23,7 @@ export default function AuthorPage({
         <h3>Add Book</h3>
         <AddBookFormContainer
           authorId={author?.id}
-          onCompleted={(book) =>
-            navTo(`/book/${encodeURIComponent(book.id)}`, {
-              replace: true,
-            })
-          }
+          onCompleted={(book) => navTo(`/book/${encodeURIComponent(book.id)}`)}
         />
       </div>
     </div>
