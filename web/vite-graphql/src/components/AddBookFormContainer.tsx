@@ -1,7 +1,6 @@
 import { useState } from "react";
 import CreateBookForm, { type CreateBookFormInputs } from "./CreateBookForm";
 import { useMutation, useRelayEnvironment } from "react-relay";
-import { useLocation } from "wouter";
 import { fetchQuery, graphql } from "relay-runtime";
 import type {
   AddBookFormContainer_AddBookMutation,
@@ -12,10 +11,11 @@ import type { AuthorSearchQuery } from "@/queries/__generated__/AuthorSearchQuer
 
 export default function AddBookFormContainer({
   authorId,
+  onCompleted,
 }: {
   authorId?: string;
+  onCompleted?: (book: { id: string }) => void;
 }) {
-  const [, navTo] = useLocation();
   const relayEnvironment = useRelayEnvironment();
 
   const handleSubmitForm = (data: CreateBookFormInputs) => {
@@ -54,9 +54,7 @@ export default function AddBookFormContainer({
       },
       onCompleted({ addBook: { book } }) {
         if (book?.id) {
-          navTo(`/book/${encodeURIComponent(book.id)}`, {
-            replace: true,
-          });
+          onCompleted?.(book);
         }
       },
     });

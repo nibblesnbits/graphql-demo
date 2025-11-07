@@ -3,7 +3,6 @@ import CreateCharacterForm, {
   type CreateCharacterFormInputs,
 } from "./CreateCharacterForm";
 import { useMutation } from "react-relay";
-import { useLocation } from "wouter";
 import { graphql } from "relay-runtime";
 import type {
   AddCharacterFormContainer_AddCharacterMutation,
@@ -12,11 +11,11 @@ import type {
 
 export default function AddCharacterFormContainer({
   bookId,
+  onCompleted,
 }: {
   bookId: string;
+  onCompleted?: (character: { id: string }) => void;
 }) {
-  const [, navTo] = useLocation();
-
   const handleSubmitForm = (data: CreateCharacterFormInputs) => {
     addCharacter({
       input: {
@@ -59,7 +58,7 @@ export default function AddCharacterFormContainer({
       },
       onCompleted({ addCharacter: { character } }) {
         if (character?.id) {
-          console.log("Created character with ID:", character.id);
+          onCompleted?.(character);
         }
       },
     });

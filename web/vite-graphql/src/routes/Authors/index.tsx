@@ -2,10 +2,12 @@ import { type RelayRoute } from "@/Router/withRelay";
 import type { AuthorsQuery } from "./__generated__/AuthorsQuery.graphql";
 import AuthorDetails from "@/components/AuthorDetails";
 import AddAuthorFormContainer from "@/components/AddAuthorFormContainer";
+import { useLocation } from "wouter";
 
 export default function AuthorsPage({
   data,
 }: Readonly<RelayRoute<AuthorsQuery>>) {
+  const [, navTo] = useLocation();
   return (
     <div>
       <h1>Authors</h1>
@@ -23,7 +25,11 @@ export default function AuthorsPage({
 
       <hr />
       <div>
-        <AddAuthorFormContainer />
+        <AddAuthorFormContainer
+          onCompleted={(author) =>
+            navTo(`/author/${encodeURIComponent(author.id)}`)
+          }
+        />
       </div>
     </div>
   );

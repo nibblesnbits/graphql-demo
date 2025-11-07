@@ -9,7 +9,7 @@ import { useSubscription } from "react-relay";
 import { useMemo } from "react";
 
 export function useCharacterAddedSubscription(
-  bookId: string,
+  bookId?: string,
   onError?: (error: Error) => void,
   onNext?: (response: CharacterAddedSubscription$data) => void
 ) {
@@ -25,7 +25,7 @@ export function useCharacterAddedSubscription(
             }
           `,
           variables: {
-            bookId,
+            bookId: bookId!,
           },
           onError: onError,
           onNext: (response) => {
