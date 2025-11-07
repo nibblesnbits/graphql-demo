@@ -34,9 +34,9 @@ export default function AuthorDetails(props: {
             return (
               <tr key={book.id}>
                 <td>
-                  <a href={`/book/${encodeURIComponent(book.id)}`}>
+                  <Link to={`/book/${encodeURIComponent(book.id)}`}>
                     {book.title}
-                  </a>
+                  </Link>
                 </td>
               </tr>
             );

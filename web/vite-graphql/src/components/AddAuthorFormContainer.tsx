@@ -45,8 +45,7 @@ export default function AddAuthorFormContainer() {
       },
       onCompleted({ addAuthor: { author } }) {
         if (author) {
-          navTo(`/books`);
-          // navTo(`/author/${encodeURIComponent(author.id)}`);
+          navTo(`/author/${encodeURIComponent(author.id)}`);
         }
       },
     });

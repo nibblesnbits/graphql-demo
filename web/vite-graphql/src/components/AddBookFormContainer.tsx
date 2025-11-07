@@ -10,7 +10,11 @@ import type {
 import { AuthorsQueryDef } from "@/queries/AuthorSearchQuery";
 import type { AuthorSearchQuery } from "@/queries/__generated__/AuthorSearchQuery.graphql";
 
-export default function AddBookFormContainer() {
+export default function AddBookFormContainer({
+  authorId,
+}: {
+  authorId?: string;
+}) {
   const [, navTo] = useLocation();
   const relayEnvironment = useRelayEnvironment();
 
@@ -79,7 +83,11 @@ export default function AddBookFormContainer() {
   return (
     <div>
       <h1>Create a New Book</h1>
-      <CreateBookForm onSubmitForm={handleSubmitForm} search={searchAuthor} />
+      <CreateBookForm
+        onSubmitForm={handleSubmitForm}
+        search={searchAuthor}
+        authorId={authorId}
+      />
       {addBookErrors.length > 0 && (
         <div>
           <h2>Errors:</h2>

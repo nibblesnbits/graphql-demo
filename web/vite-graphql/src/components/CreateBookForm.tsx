@@ -15,9 +15,11 @@ export type CreateBookFormInputs = z.infer<typeof FormSchema>;
 export default function CreateBookForm({
   onSubmitForm,
   search,
+  authorId,
 }: {
   onSubmitForm: (data: CreateBookFormInputs) => void;
   search: (term: string) => Promise<{ id: string; name: string }[]>;
+  authorId?: string;
 }) {
   const {
     register,
@@ -28,7 +30,7 @@ export default function CreateBookForm({
     resolver: zodResolver(FormSchema),
     defaultValues: {
       title: "",
-      authorId: "",
+      authorId: authorId || "",
     },
   });
 
@@ -40,20 +42,22 @@ export default function CreateBookForm({
       {/* errors will return when field validation fails  */}
       {errors.title && <span>This field is required</span>}
 
-      <Controller
-        name="authorId"
-        control={control}
-        render={({ field, fieldState: { error } }) => (
-          <Autocomplete
-            value={field.value}
-            onChange={field.onChange}
-            onSearch={search}
-            label="Author"
-            placeholder="Search authors..."
-            error={error}
-          />
-        )}
-      />
+      {authorId ? null : (
+        <Controller
+          name="authorId"
+          control={control}
+          render={({ field, fieldState: { error } }) => (
+            <Autocomplete
+              value={field.value}
+              onChange={field.onChange}
+              onSearch={search}
+              label="Author"
+              placeholder="Search authors..."
+              error={error}
+            />
+          )}
+        />
+      )}
 
       <input type="submit" />
     </form>
