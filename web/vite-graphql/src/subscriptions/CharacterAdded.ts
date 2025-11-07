@@ -18,7 +18,7 @@ export function useCharacterAddedSubscription(
       () =>
         ({
           subscription: graphql`
-            subscription CharacterAddedSubscription($bookId: ID!) {
+            subscription CharacterAddedSubscription($bookId: ID) {
               onCharacterAdded(bookId: $bookId) {
                 ...BookDetails_book
               }

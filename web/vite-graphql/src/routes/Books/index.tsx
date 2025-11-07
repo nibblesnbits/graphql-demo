@@ -4,6 +4,8 @@ import BookDetails from "@/components/BookDetails";
 import BookHover from "@/components/BookHover";
 import { Suspense, useState } from "react";
 import AddBookFormContainer from "@/components/AddBookFormContainer";
+import { useCharacterAddedSubscription } from "@/subscriptions/CharacterAdded";
+import { Link } from "wouter";
 
 export default function BooksPage({ data }: Readonly<RelayRoute<BooksQuery>>) {
   const books = data?.books?.filter((b) => b != null) ?? [];
@@ -20,6 +22,11 @@ export default function BooksPage({ data }: Readonly<RelayRoute<BooksQuery>>) {
         <ul>
           {books.map((book) => (
             <li key={book.id}>
+              <h4>
+                <Link to={`/book/${encodeURIComponent(book.id)}`}>
+                  {book.title}
+                </Link>
+              </h4>
               <BookDetails book={book} />
               <button onClick={showInfo(book.id)}>More info</button>
             </li>

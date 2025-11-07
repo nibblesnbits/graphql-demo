@@ -7,7 +7,6 @@ export default graphql`
     books {
       id
       title
-      ...BookDetails_book
     }
   }
 `;

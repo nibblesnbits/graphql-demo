@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<7c6a1fd2ed241d916d6a32379217b096>>
+ * @generated SignedSource<<894efb775cafd9250036459cda789b89>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -10,42 +10,67 @@
 
 import { ConcreteRequest } from 'relay-runtime';
 import { FragmentRefs } from "relay-runtime";
-export type AuthorsQuery$variables = Record<PropertyKey, never>;
-export type AuthorsQuery$data = {
-  readonly authors: ReadonlyArray<{
-    readonly id: string;
-    readonly " $fragmentSpreads": FragmentRefs<"AuthorDetails_author">;
-  }>;
+export type AuthorQuery$variables = {
+  id: string;
 };
-export type AuthorsQuery = {
-  response: AuthorsQuery$data;
-  variables: AuthorsQuery$variables;
+export type AuthorQuery$data = {
+  readonly author: {
+    readonly id: string;
+    readonly name: string;
+    readonly " $fragmentSpreads": FragmentRefs<"AuthorDetails_author">;
+  } | null | undefined;
+};
+export type AuthorQuery = {
+  response: AuthorQuery$data;
+  variables: AuthorQuery$variables;
 };
 
 const node: ConcreteRequest = (function(){
-var v0 = {
+var v0 = [
+  {
+    "defaultValue": null,
+    "kind": "LocalArgument",
+    "name": "id"
+  }
+],
+v1 = [
+  {
+    "kind": "Variable",
+    "name": "id",
+    "variableName": "id"
+  }
+],
+v2 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
   "name": "id",
   "storageKey": null
+},
+v3 = {
+  "alias": null,
+  "args": null,
+  "kind": "ScalarField",
+  "name": "name",
+  "storageKey": null
 };
 return {
   "fragment": {
-    "argumentDefinitions": [],
+    "argumentDefinitions": (v0/*: any*/),
     "kind": "Fragment",
     "metadata": null,
-    "name": "AuthorsQuery",
+    "name": "AuthorQuery",
     "selections": [
       {
         "alias": null,
-        "args": null,
+        "args": (v1/*: any*/),
         "concreteType": "Author",
         "kind": "LinkedField",
-        "name": "authors",
-        "plural": true,
+        "name": "author",
+        "plural": false,
         "selections": [
-          (v0/*: any*/),
+          (v2/*: any*/),
+          (v3/*: any*/),
           {
             "args": null,
             "kind": "FragmentSpread",
@@ -60,26 +85,20 @@ return {
   },
   "kind": "Request",
   "operation": {
-    "argumentDefinitions": [],
+    "argumentDefinitions": (v0/*: any*/),
     "kind": "Operation",
-    "name": "AuthorsQuery",
+    "name": "AuthorQuery",
     "selections": [
       {
         "alias": null,
-        "args": null,
+        "args": (v1/*: any*/),
         "concreteType": "Author",
         "kind": "LinkedField",
-        "name": "authors",
-        "plural": true,
+        "name": "author",
+        "plural": false,
         "selections": [
-          (v0/*: any*/),
-          {
-            "alias": null,
-            "args": null,
-            "kind": "ScalarField",
-            "name": "name",
-            "storageKey": null
-          },
+          (v2/*: any*/),
+          (v3/*: any*/),
           {
             "alias": null,
             "args": null,
@@ -88,7 +107,7 @@ return {
             "name": "books",
             "plural": true,
             "selections": [
-              (v0/*: any*/),
+              (v2/*: any*/),
               {
                 "alias": null,
                 "args": null,
@@ -105,16 +124,16 @@ return {
     ]
   },
   "params": {
-    "cacheID": "d3fa290df63cda7531e748121436b43f",
+    "cacheID": "4d7fc0ca83aa70afa8a0b8a4906fad8a",
     "id": null,
     "metadata": {},
-    "name": "AuthorsQuery",
+    "name": "AuthorQuery",
     "operationKind": "query",
-    "text": "query AuthorsQuery {\n  authors {\n    id\n    ...AuthorDetails_author\n  }\n}\n\nfragment AuthorDetails_author on Author {\n  id\n  name\n  books {\n    id\n    title\n  }\n}\n"
+    "text": "query AuthorQuery(\n  $id: ID!\n) {\n  author(id: $id) {\n    id\n    name\n    ...AuthorDetails_author\n  }\n}\n\nfragment AuthorDetails_author on Author {\n  id\n  name\n  books {\n    id\n    title\n  }\n}\n"
   }
 };
 })();
 
-(node as any).hash = "fffa5cd22511df9fae159fec1ddb626d";
+(node as any).hash = "40f7ab53bb9c70f88e43e22ce7dbbf14";
 
 export default node;

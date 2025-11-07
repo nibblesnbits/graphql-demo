@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<382253e5149ae7e35aea657ab2bf7a5e>>
+ * @generated SignedSource<<cebdca8ff3a17a6fb954f6fe13b9b5a1>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -14,7 +14,6 @@ export type AuthorDetails_author$data = {
   readonly books: ReadonlyArray<{
     readonly id: string;
     readonly title: string | null | undefined;
-    readonly " $fragmentSpreads": FragmentRefs<"BookDetails_book">;
   }>;
   readonly id: string;
   readonly name: string;
@@ -62,11 +61,6 @@ return {
           "kind": "ScalarField",
           "name": "title",
           "storageKey": null
-        },
-        {
-          "args": null,
-          "kind": "FragmentSpread",
-          "name": "BookDetails_book"
         }
       ],
       "storageKey": null
@@ -77,6 +71,6 @@ return {
 };
 })();
 
-(node as any).hash = "86d35630aa8a73c9b9d67c8895b51ed9";
+(node as any).hash = "5ad7a119f47e68efd0026f40cf40567c";
 
 export default node;

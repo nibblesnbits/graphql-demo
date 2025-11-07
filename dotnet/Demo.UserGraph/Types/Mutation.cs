@@ -24,8 +24,11 @@ public class Mutation {
     }
 
     public async Task<Character> AddCharacter(ITopicEventSender subscriptionSender, BooksDbContext dbContext, CharacterInput input, CancellationToken cancellationToken) {
-
-        var entry = dbContext.Characters.Add(new Character { Name = input.Name });
+        if (await dbContext.Books.FindAsync([input.BookId], cancellationToken) is not Book book) {
+            throw new GraphQLException($"Author with ID '{input.BookId}' not found.");
+        }
+        var entry = dbContext.Characters.Attach(new Character { Name = input.Name });
+        book.Characters.Add(entry.Entity);
         await dbContext.SaveChangesAsync(cancellationToken);
         await subscriptionSender.SendAsync(nameof(Subscription.OnCharacterAdded), entry.Entity, cancellationToken);
         return entry.Entity;
@@ -46,6 +49,11 @@ public record AuthorInput(string Name);
 
 public class AuthorInputType : InputObjectType<AuthorInput>;
 
-public record CharacterInput(string Name);
+public record CharacterInput(string Name, [ID<Book>] Guid BookId);
 
-public class CharacterInputType : InputObjectType<CharacterInput>;
+public class CharacterInputType : InputObjectType<CharacterInput> {
+    override protected void Configure(IInputObjectTypeDescriptor<CharacterInput> descriptor) {
+        descriptor.Field(f => f.Name).Type<NonNullType<StringType>>();
+        descriptor.Field(f => f.BookId).ID<Book>();
+    }
+}

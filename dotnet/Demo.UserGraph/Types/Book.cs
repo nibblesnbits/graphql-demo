@@ -16,9 +16,15 @@ public class BookObjectType : ObjectType<Book> {
                 using var dbContext = await factory.CreateDbContextAsync();
                 return await dbContext.Books.FindAsync([id]);
             });
-        // add pagination to Characters field
+
         descriptor
             .Field(b => b.Characters)
-            .UsePaging<CharacterObjectType>();
+            .Resolve(ctx => {
+                var book = ctx.Parent<Book>();
+                var db = ctx.Service<BooksDbContext>();
+                return db.Characters.Where(c => c.Books.Any(b => b.Id == book.Id));
+            })
+            .UsePaging<CharacterObjectType>()
+            .UseSorting();
     }
 }

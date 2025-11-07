@@ -5,11 +5,12 @@ export default graphql`
   @argumentDefinitions(
     cursor: { type: "String" }
     count: { type: "Int", defaultValue: 5 }
+    order: { type: "[CharacterSortInput!]", defaultValue: [{ name: ASC }] }
   )
   @refetchable(queryName: "BookDetails_book_paginationQuery") {
     id
     title
-    characters(after: $cursor, first: $count)
+    characters(after: $cursor, first: $count, order: $order)
       @connection(key: "BookDetails_book_characters") {
       edges {
         cursor

@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<36bc467cf543d18f4ffe095c3479ea02>>
+ * @generated SignedSource<<aef8e31ad3a24b50ec2196bfc4b96b5a>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -60,6 +60,15 @@ v3 = [
     "kind": "Literal",
     "name": "first",
     "value": 5
+  },
+  {
+    "kind": "Literal",
+    "name": "order",
+    "value": [
+      {
+        "name": "ASC"
+      }
+    ]
   }
 ];
 return {
@@ -209,12 +218,14 @@ return {
                     "storageKey": null
                   }
                 ],
-                "storageKey": "characters(first:5)"
+                "storageKey": "characters(first:5,order:[{\"name\":\"ASC\"}])"
               },
               {
                 "alias": null,
                 "args": (v3/*: any*/),
-                "filters": null,
+                "filters": [
+                  "order"
+                ],
                 "handle": "connection",
                 "key": "BookDetails_book_characters",
                 "kind": "LinkedHandle",
@@ -229,12 +240,12 @@ return {
     ]
   },
   "params": {
-    "cacheID": "46f5f3d1a4bdbe53bbc1a09039865e11",
+    "cacheID": "b67a65f1790924941286fd1b96e413ed",
     "id": null,
     "metadata": {},
     "name": "AddBookFormContainer_AddBookMutation",
     "operationKind": "mutation",
-    "text": "mutation AddBookFormContainer_AddBookMutation(\n  $addBookInput: AddBookInput!\n) {\n  addBook(input: $addBookInput) {\n    book {\n      id\n      ...BookDetails_book\n    }\n  }\n}\n\nfragment BookDetails_book on Book {\n  id\n  title\n  characters(first: 5) {\n    edges {\n      cursor\n      node {\n        name\n        id\n        __typename\n      }\n    }\n    pageInfo {\n      hasNextPage\n      endCursor\n    }\n  }\n}\n"
+    "text": "mutation AddBookFormContainer_AddBookMutation(\n  $addBookInput: AddBookInput!\n) {\n  addBook(input: $addBookInput) {\n    book {\n      id\n      ...BookDetails_book\n    }\n  }\n}\n\nfragment BookDetails_book on Book {\n  id\n  title\n  characters(first: 5, order: [{name: ASC}]) {\n    edges {\n      cursor\n      node {\n        name\n        id\n        __typename\n      }\n    }\n    pageInfo {\n      hasNextPage\n      endCursor\n    }\n  }\n}\n"
   }
 };
 })();

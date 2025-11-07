@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<067ad5cb9517bebcc84c01e6f3ce8a47>>
+ * @generated SignedSource<<b020ef7e733f7350a9287ea2be95b178>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -59,6 +59,15 @@ v4 = [
     "kind": "Literal",
     "name": "first",
     "value": 5
+  },
+  {
+    "kind": "Literal",
+    "name": "order",
+    "value": [
+      {
+        "name": "ASC"
+      }
+    ]
   }
 ];
 return {
@@ -184,12 +193,14 @@ return {
                 "storageKey": null
               }
             ],
-            "storageKey": "characters(first:5)"
+            "storageKey": "characters(first:5,order:[{\"name\":\"ASC\"}])"
           },
           {
             "alias": null,
             "args": (v4/*: any*/),
-            "filters": null,
+            "filters": [
+              "order"
+            ],
             "handle": "connection",
             "key": "BookDetails_book_characters",
             "kind": "LinkedHandle",
@@ -201,12 +212,12 @@ return {
     ]
   },
   "params": {
-    "cacheID": "e36e67815629d2a87297da0cf9018f2b",
+    "cacheID": "80390d85b324f5ebb9beb278f64914f1",
     "id": null,
     "metadata": {},
     "name": "BookHoverQuery",
     "operationKind": "query",
-    "text": "query BookHoverQuery(\n  $id: ID!\n) {\n  book(id: $id) {\n    id\n    title\n    ...BookDetails_book\n  }\n}\n\nfragment BookDetails_book on Book {\n  id\n  title\n  characters(first: 5) {\n    edges {\n      cursor\n      node {\n        name\n        id\n        __typename\n      }\n    }\n    pageInfo {\n      hasNextPage\n      endCursor\n    }\n  }\n}\n"
+    "text": "query BookHoverQuery(\n  $id: ID!\n) {\n  book(id: $id) {\n    id\n    title\n    ...BookDetails_book\n  }\n}\n\nfragment BookDetails_book on Book {\n  id\n  title\n  characters(first: 5, order: [{name: ASC}]) {\n    edges {\n      cursor\n      node {\n        name\n        id\n        __typename\n      }\n    }\n    pageInfo {\n      hasNextPage\n      endCursor\n    }\n  }\n}\n"
   }
 };
 })();

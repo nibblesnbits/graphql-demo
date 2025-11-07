@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<01b006b63adf87cf6e1aa775749e921e>>
+ * @generated SignedSource<<b29018fbe546ee4095e57ca6b6aadedb>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -14,9 +14,9 @@ export type BookQuery$variables = {
   id: string;
 };
 export type BookQuery$data = {
-  readonly node: {
+  readonly book: {
     readonly id: string;
-    readonly title?: string | null | undefined;
+    readonly title: string | null | undefined;
     readonly " $fragmentSpreads": FragmentRefs<"BookDetails_book">;
   } | null | undefined;
 };
@@ -54,18 +54,20 @@ v3 = {
   "name": "title",
   "storageKey": null
 },
-v4 = {
-  "alias": null,
-  "args": null,
-  "kind": "ScalarField",
-  "name": "__typename",
-  "storageKey": null
-},
-v5 = [
+v4 = [
   {
     "kind": "Literal",
     "name": "first",
     "value": 5
+  },
+  {
+    "kind": "Literal",
+    "name": "order",
+    "value": [
+      {
+        "name": "ASC"
+      }
+    ]
   }
 ];
 return {
@@ -78,24 +80,17 @@ return {
       {
         "alias": null,
         "args": (v1/*: any*/),
-        "concreteType": null,
+        "concreteType": "Book",
         "kind": "LinkedField",
-        "name": "node",
+        "name": "book",
         "plural": false,
         "selections": [
           (v2/*: any*/),
+          (v3/*: any*/),
           {
-            "kind": "InlineFragment",
-            "selections": [
-              (v3/*: any*/),
-              {
-                "args": null,
-                "kind": "FragmentSpread",
-                "name": "BookDetails_book"
-              }
-            ],
-            "type": "Book",
-            "abstractKey": null
+            "args": null,
+            "kind": "FragmentSpread",
+            "name": "BookDetails_book"
           }
         ],
         "storageKey": null
@@ -113,103 +108,103 @@ return {
       {
         "alias": null,
         "args": (v1/*: any*/),
-        "concreteType": null,
+        "concreteType": "Book",
         "kind": "LinkedField",
-        "name": "node",
+        "name": "book",
         "plural": false,
         "selections": [
-          (v4/*: any*/),
           (v2/*: any*/),
+          (v3/*: any*/),
           {
-            "kind": "InlineFragment",
+            "alias": null,
+            "args": (v4/*: any*/),
+            "concreteType": "CharactersConnection",
+            "kind": "LinkedField",
+            "name": "characters",
+            "plural": false,
             "selections": [
-              (v3/*: any*/),
               {
                 "alias": null,
-                "args": (v5/*: any*/),
-                "concreteType": "CharactersConnection",
+                "args": null,
+                "concreteType": "CharactersEdge",
                 "kind": "LinkedField",
-                "name": "characters",
-                "plural": false,
+                "name": "edges",
+                "plural": true,
                 "selections": [
                   {
                     "alias": null,
                     "args": null,
-                    "concreteType": "CharactersEdge",
-                    "kind": "LinkedField",
-                    "name": "edges",
-                    "plural": true,
-                    "selections": [
-                      {
-                        "alias": null,
-                        "args": null,
-                        "kind": "ScalarField",
-                        "name": "cursor",
-                        "storageKey": null
-                      },
-                      {
-                        "alias": null,
-                        "args": null,
-                        "concreteType": "Character",
-                        "kind": "LinkedField",
-                        "name": "node",
-                        "plural": false,
-                        "selections": [
-                          {
-                            "alias": null,
-                            "args": null,
-                            "kind": "ScalarField",
-                            "name": "name",
-                            "storageKey": null
-                          },
-                          (v2/*: any*/),
-                          (v4/*: any*/)
-                        ],
-                        "storageKey": null
-                      }
-                    ],
+                    "kind": "ScalarField",
+                    "name": "cursor",
                     "storageKey": null
                   },
                   {
                     "alias": null,
                     "args": null,
-                    "concreteType": "PageInfo",
+                    "concreteType": "Character",
                     "kind": "LinkedField",
-                    "name": "pageInfo",
+                    "name": "node",
                     "plural": false,
                     "selections": [
                       {
                         "alias": null,
                         "args": null,
                         "kind": "ScalarField",
-                        "name": "hasNextPage",
+                        "name": "name",
                         "storageKey": null
                       },
+                      (v2/*: any*/),
                       {
                         "alias": null,
                         "args": null,
                         "kind": "ScalarField",
-                        "name": "endCursor",
+                        "name": "__typename",
                         "storageKey": null
                       }
                     ],
                     "storageKey": null
                   }
                 ],
-                "storageKey": "characters(first:5)"
+                "storageKey": null
               },
               {
                 "alias": null,
-                "args": (v5/*: any*/),
-                "filters": null,
-                "handle": "connection",
-                "key": "BookDetails_book_characters",
-                "kind": "LinkedHandle",
-                "name": "characters"
+                "args": null,
+                "concreteType": "PageInfo",
+                "kind": "LinkedField",
+                "name": "pageInfo",
+                "plural": false,
+                "selections": [
+                  {
+                    "alias": null,
+                    "args": null,
+                    "kind": "ScalarField",
+                    "name": "hasNextPage",
+                    "storageKey": null
+                  },
+                  {
+                    "alias": null,
+                    "args": null,
+                    "kind": "ScalarField",
+                    "name": "endCursor",
+                    "storageKey": null
+                  }
+                ],
+                "storageKey": null
               }
             ],
-            "type": "Book",
-            "abstractKey": null
+            "storageKey": "characters(first:5,order:[{\"name\":\"ASC\"}])"
+          },
+          {
+            "alias": null,
+            "args": (v4/*: any*/),
+            "filters": [
+              "order"
+            ],
+            "handle": "connection",
+            "key": "BookDetails_book_characters",
+            "kind": "LinkedHandle",
+            "name": "characters"
           }
         ],
         "storageKey": null
@@ -217,16 +212,16 @@ return {
     ]
   },
   "params": {
-    "cacheID": "e24642daf477fafe232dbe7b7282d7c8",
+    "cacheID": "4e415d0ff1e932a738698a82511ab2c2",
     "id": null,
     "metadata": {},
     "name": "BookQuery",
     "operationKind": "query",
-    "text": "query BookQuery(\n  $id: ID!\n) {\n  node(id: $id) {\n    __typename\n    id\n    ... on Book {\n      title\n      ...BookDetails_book\n    }\n  }\n}\n\nfragment BookDetails_book on Book {\n  id\n  title\n  characters(first: 5) {\n    edges {\n      cursor\n      node {\n        name\n        id\n        __typename\n      }\n    }\n    pageInfo {\n      hasNextPage\n      endCursor\n    }\n  }\n}\n"
+    "text": "query BookQuery(\n  $id: ID!\n) {\n  book(id: $id) {\n    id\n    title\n    ...BookDetails_book\n  }\n}\n\nfragment BookDetails_book on Book {\n  id\n  title\n  characters(first: 5, order: [{name: ASC}]) {\n    edges {\n      cursor\n      node {\n        name\n        id\n        __typename\n      }\n    }\n    pageInfo {\n      hasNextPage\n      endCursor\n    }\n  }\n}\n"
   }
 };
 })();
 
-(node as any).hash = "a4a3aad9ad76be4efa3d15ef59fdb880";
+(node as any).hash = "13c3642b732a16ddc67c8057fa661425";
 
 export default node;

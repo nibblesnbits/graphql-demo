@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<59bc64dc5c03364e2ea2343122101c60>>
+ * @generated SignedSource<<2dd93dda066baf24b00c8170dee09708>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -14,6 +14,7 @@ export type BooksQuery$variables = Record<PropertyKey, never>;
 export type BooksQuery$data = {
   readonly books: ReadonlyArray<{
     readonly id: string;
+    readonly title: string | null | undefined;
     readonly " $fragmentSpreads": FragmentRefs<"BookDetails_book">;
   }>;
 };
@@ -30,11 +31,27 @@ var v0 = {
   "name": "id",
   "storageKey": null
 },
-v1 = [
+v1 = {
+  "alias": null,
+  "args": null,
+  "kind": "ScalarField",
+  "name": "title",
+  "storageKey": null
+},
+v2 = [
   {
     "kind": "Literal",
     "name": "first",
     "value": 5
+  },
+  {
+    "kind": "Literal",
+    "name": "order",
+    "value": [
+      {
+        "name": "ASC"
+      }
+    ]
   }
 ];
 return {
@@ -53,6 +70,7 @@ return {
         "plural": true,
         "selections": [
           (v0/*: any*/),
+          (v1/*: any*/),
           {
             "args": null,
             "kind": "FragmentSpread",
@@ -80,16 +98,10 @@ return {
         "plural": true,
         "selections": [
           (v0/*: any*/),
+          (v1/*: any*/),
           {
             "alias": null,
-            "args": null,
-            "kind": "ScalarField",
-            "name": "title",
-            "storageKey": null
-          },
-          {
-            "alias": null,
-            "args": (v1/*: any*/),
+            "args": (v2/*: any*/),
             "concreteType": "CharactersConnection",
             "kind": "LinkedField",
             "name": "characters",
@@ -165,12 +177,14 @@ return {
                 "storageKey": null
               }
             ],
-            "storageKey": "characters(first:5)"
+            "storageKey": "characters(first:5,order:[{\"name\":\"ASC\"}])"
           },
           {
             "alias": null,
-            "args": (v1/*: any*/),
-            "filters": null,
+            "args": (v2/*: any*/),
+            "filters": [
+              "order"
+            ],
             "handle": "connection",
             "key": "BookDetails_book_characters",
             "kind": "LinkedHandle",
@@ -182,16 +196,16 @@ return {
     ]
   },
   "params": {
-    "cacheID": "47457af7b4e1ec9bb09bb9f2c217e2c0",
+    "cacheID": "1d5257d995125cd4103b0010b0b7acbc",
     "id": null,
     "metadata": {},
     "name": "BooksQuery",
     "operationKind": "query",
-    "text": "query BooksQuery {\n  books {\n    id\n    ...BookDetails_book\n  }\n}\n\nfragment BookDetails_book on Book {\n  id\n  title\n  characters(first: 5) {\n    edges {\n      cursor\n      node {\n        name\n        id\n        __typename\n      }\n    }\n    pageInfo {\n      hasNextPage\n      endCursor\n    }\n  }\n}\n"
+    "text": "query BooksQuery {\n  books {\n    id\n    title\n    ...BookDetails_book\n  }\n}\n\nfragment BookDetails_book on Book {\n  id\n  title\n  characters(first: 5, order: [{name: ASC}]) {\n    edges {\n      cursor\n      node {\n        name\n        id\n        __typename\n      }\n    }\n    pageInfo {\n      hasNextPage\n      endCursor\n    }\n  }\n}\n"
   }
 };
 })();
 
-(node as any).hash = "47dd50784b3230ddc0f573302528ef4a";
+(node as any).hash = "a8fbd375d27258a0d11cdbe8f286de9a";
 
 export default node;

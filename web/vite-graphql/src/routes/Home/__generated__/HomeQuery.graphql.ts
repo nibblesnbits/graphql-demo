@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<7b159fabd9d0862ff9809d60342ab916>>
+ * @generated SignedSource<<2d73dd0eb4bdb2c1f08416ac36741998>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -35,6 +35,15 @@ v1 = [
     "kind": "Literal",
     "name": "first",
     "value": 5
+  },
+  {
+    "kind": "Literal",
+    "name": "order",
+    "value": [
+      {
+        "name": "ASC"
+      }
+    ]
   }
 ];
 return {
@@ -165,12 +174,14 @@ return {
                 "storageKey": null
               }
             ],
-            "storageKey": "characters(first:5)"
+            "storageKey": "characters(first:5,order:[{\"name\":\"ASC\"}])"
           },
           {
             "alias": null,
             "args": (v1/*: any*/),
-            "filters": null,
+            "filters": [
+              "order"
+            ],
             "handle": "connection",
             "key": "BookDetails_book_characters",
             "kind": "LinkedHandle",
@@ -182,12 +193,12 @@ return {
     ]
   },
   "params": {
-    "cacheID": "77fefd028248468131d300e5a5f0294c",
+    "cacheID": "7e4fe5a8b1e6e93ac3cc79cae10604a1",
     "id": null,
     "metadata": {},
     "name": "HomeQuery",
     "operationKind": "query",
-    "text": "query HomeQuery {\n  books {\n    id\n    ...BookDetails_book\n  }\n}\n\nfragment BookDetails_book on Book {\n  id\n  title\n  characters(first: 5) {\n    edges {\n      cursor\n      node {\n        name\n        id\n        __typename\n      }\n    }\n    pageInfo {\n      hasNextPage\n      endCursor\n    }\n  }\n}\n"
+    "text": "query HomeQuery {\n  books {\n    id\n    ...BookDetails_book\n  }\n}\n\nfragment BookDetails_book on Book {\n  id\n  title\n  characters(first: 5, order: [{name: ASC}]) {\n    edges {\n      cursor\n      node {\n        name\n        id\n        __typename\n      }\n    }\n    pageInfo {\n      hasNextPage\n      endCursor\n    }\n  }\n}\n"
   }
 };
 })();

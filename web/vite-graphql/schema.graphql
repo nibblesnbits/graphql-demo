@@ -38,6 +38,7 @@ type Book implements Node {
     last: Int
     "Returns the elements in the list that come before the specified cursor."
     before: String
+    order: [CharacterSortInput!] @cost(weight: "10")
   ): CharactersConnection
     @listSize(
       assumedSize: 50
@@ -125,10 +126,14 @@ type Query {
     search: String!
     order: [AuthorSortInput!] @cost(weight: "10")
   ): [Author!]! @cost(weight: "10")
+  searchBooks(
+    search: String!
+    order: [BookSortInput!] @cost(weight: "10")
+  ): [Book!]! @cost(weight: "10")
 }
 
 type Subscription {
-  onCharacterAdded(bookId: ID!): Book @cost(weight: "10")
+  onCharacterAdded(bookId: ID): Book @cost(weight: "10")
 }
 
 input AddAuthorInput {
@@ -157,8 +162,20 @@ input BookInput {
   authorId: ID!
 }
 
+input BookSortInput {
+  id: SortEnumType @cost(weight: "10")
+  title: SortEnumType @cost(weight: "10")
+  author: AuthorSortInput @cost(weight: "10")
+}
+
 input CharacterInput {
   name: String!
+  bookId: ID!
+}
+
+input CharacterSortInput {
+  id: SortEnumType @cost(weight: "10")
+  name: SortEnumType @cost(weight: "10")
 }
 
 enum SortEnumType {

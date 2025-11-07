@@ -1,6 +1,7 @@
 import { usePaginationFragment } from "react-relay";
 import type { BookDetails_book$key } from "@/fragments/__generated__/BookDetails_book.graphql";
 import BookDetailsFragment from "@/fragments/BookDetails";
+import { Link } from "wouter";
 
 export default function BookDetails(props: { book: BookDetails_book$key }) {
   const { data, loadNext, hasNext } = usePaginationFragment(
@@ -14,7 +15,9 @@ export default function BookDetails(props: { book: BookDetails_book$key }) {
 
   return (
     <>
-      <h2>{data.title}</h2>
+      <h2>
+        <Link to={`/book/${encodeURIComponent(data.id)}`}>{data.title}</Link>
+      </h2>
       <table>
         <thead>
           <tr>
@@ -24,9 +27,9 @@ export default function BookDetails(props: { book: BookDetails_book$key }) {
           </tr>
         </thead>
         <tbody>
-          {data.characters?.edges?.map((edge, index) =>
+          {data.characters?.edges?.map((edge) =>
             edge?.node ? (
-              <tr key={index}>
+              <tr key={edge.cursor}>
                 <td>{edge.node.name}</td>
               </tr>
             ) : null
@@ -35,7 +38,7 @@ export default function BookDetails(props: { book: BookDetails_book$key }) {
         <tfoot>
           <tr>
             <td>
-              {hasNext ? (
+              {hasNext && (
                 <button
                   onClick={() => {
                     loadNext(5);
@@ -43,8 +46,6 @@ export default function BookDetails(props: { book: BookDetails_book$key }) {
                 >
                   Load more characters
                 </button>
-              ) : (
-                "No more characters."
               )}
             </td>
           </tr>

@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<0dcc3ac133ab385b75b4cce32b0856df>>
+ * @generated SignedSource<<44b1873a67ea95c9b4bed8249df0ff93>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -48,6 +48,15 @@ return {
       "defaultValue": null,
       "kind": "LocalArgument",
       "name": "cursor"
+    },
+    {
+      "defaultValue": [
+        {
+          "name": "ASC"
+        }
+      ],
+      "kind": "LocalArgument",
+      "name": "order"
     }
   ],
   "kind": "Fragment",
@@ -97,7 +106,13 @@ return {
     },
     {
       "alias": "characters",
-      "args": null,
+      "args": [
+        {
+          "kind": "Variable",
+          "name": "order",
+          "variableName": "order"
+        }
+      ],
       "concreteType": "CharactersConnection",
       "kind": "LinkedField",
       "name": "__BookDetails_book_characters_connection",
@@ -180,6 +195,6 @@ return {
 };
 })();
 
-(node as any).hash = "c6cd482fbb46cff28520bc22d701d26e";
+(node as any).hash = "3036f5faaf56da69f941f3cbb3bb0eeb";
 
 export default node;

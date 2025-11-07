@@ -6,18 +6,21 @@ namespace Demo.UserGraph.Types;
 [SubscriptionType]
 public class Subscription {
 
-    [Subscribe(MessageType = typeof(Book))]
-    public async Task<Book?> OnCharacterAdded([ID<Book>] Guid bookId, [EventMessage] Character character, BooksDbContext dbContext) {
+    [Subscribe(MessageType = typeof(Character))]
+    public async Task<Book?> OnCharacterAdded([ID<Book>] Guid? bookId, [EventMessage] Character character, BooksDbContext dbContext) {
+        if (bookId is null) {
+            return default;
+        }
+
         var book = await dbContext.Books.FindAsync([bookId]);
         if (book is null) {
             return default;
         }
 
-        if (book.Characters is null) {
+        if (book.Characters.Count == 0) {
             await dbContext.Entry(book).Collection(b => b.Characters).LoadAsync();
         }
-        var isInBook = book.Characters!.Any(c => c.Id == character.Id);
 
-        return isInBook ? book : default;
+        return book;
     }
 }

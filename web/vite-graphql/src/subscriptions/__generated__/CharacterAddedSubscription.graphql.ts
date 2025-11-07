@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<abd0c461cc291fb9958bec2ae6a7970b>>
+ * @generated SignedSource<<62e9281832263aec25f1fff5a8694c0a>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -11,7 +11,7 @@
 import { ConcreteRequest } from 'relay-runtime';
 import { FragmentRefs } from "relay-runtime";
 export type CharacterAddedSubscription$variables = {
-  bookId: string;
+  bookId?: string | null | undefined;
 };
 export type CharacterAddedSubscription$data = {
   readonly onCharacterAdded: {
@@ -50,6 +50,15 @@ v3 = [
     "kind": "Literal",
     "name": "first",
     "value": 5
+  },
+  {
+    "kind": "Literal",
+    "name": "order",
+    "value": [
+      {
+        "name": "ASC"
+      }
+    ]
   }
 ];
 return {
@@ -179,12 +188,14 @@ return {
                 "storageKey": null
               }
             ],
-            "storageKey": "characters(first:5)"
+            "storageKey": "characters(first:5,order:[{\"name\":\"ASC\"}])"
           },
           {
             "alias": null,
             "args": (v3/*: any*/),
-            "filters": null,
+            "filters": [
+              "order"
+            ],
             "handle": "connection",
             "key": "BookDetails_book_characters",
             "kind": "LinkedHandle",
@@ -196,16 +207,16 @@ return {
     ]
   },
   "params": {
-    "cacheID": "1ce3f6dc00ddf1ac4a8838ce272be4d5",
+    "cacheID": "40d5fb5f8ece917e190230743acb48b8",
     "id": null,
     "metadata": {},
     "name": "CharacterAddedSubscription",
     "operationKind": "subscription",
-    "text": "subscription CharacterAddedSubscription(\n  $bookId: ID!\n) {\n  onCharacterAdded(bookId: $bookId) {\n    ...BookDetails_book\n    id\n  }\n}\n\nfragment BookDetails_book on Book {\n  id\n  title\n  characters(first: 5) {\n    edges {\n      cursor\n      node {\n        name\n        id\n        __typename\n      }\n    }\n    pageInfo {\n      hasNextPage\n      endCursor\n    }\n  }\n}\n"
+    "text": "subscription CharacterAddedSubscription(\n  $bookId: ID\n) {\n  onCharacterAdded(bookId: $bookId) {\n    ...BookDetails_book\n    id\n  }\n}\n\nfragment BookDetails_book on Book {\n  id\n  title\n  characters(first: 5, order: [{name: ASC}]) {\n    edges {\n      cursor\n      node {\n        name\n        id\n        __typename\n      }\n    }\n    pageInfo {\n      hasNextPage\n      endCursor\n    }\n  }\n}\n"
   }
 };
 })();
 
-(node as any).hash = "e2bc965b45c84d756c2a2ac8844a7bc5";
+(node as any).hash = "50adffc866d80b98826152cc3225f0eb";
 
 export default node;
