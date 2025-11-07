@@ -5,6 +5,7 @@ import BookDetails from "@/components/BookDetails";
 export default function BookPage({
   data: { node },
 }: Readonly<RelayRoute<BookQuery>>) {
+
   return (
     <div>
       <h1>{node?.title}</h1>

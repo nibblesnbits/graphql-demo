@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<b2e7bea7f3ceb7456ed15b41c5f167fd>>
+ * @generated SignedSource<<abd0c461cc291fb9958bec2ae6a7970b>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -10,27 +10,42 @@
 
 import { ConcreteRequest } from 'relay-runtime';
 import { FragmentRefs } from "relay-runtime";
-export type BookAddedSubscription$variables = Record<PropertyKey, never>;
-export type BookAddedSubscription$data = {
-  readonly onBookAdded: {
-    readonly id: string;
-    readonly " $fragmentSpreads": FragmentRefs<"BookDetails_book">;
-  };
+export type CharacterAddedSubscription$variables = {
+  bookId: string;
 };
-export type BookAddedSubscription = {
-  response: BookAddedSubscription$data;
-  variables: BookAddedSubscription$variables;
+export type CharacterAddedSubscription$data = {
+  readonly onCharacterAdded: {
+    readonly " $fragmentSpreads": FragmentRefs<"BookDetails_book">;
+  } | null | undefined;
+};
+export type CharacterAddedSubscription = {
+  response: CharacterAddedSubscription$data;
+  variables: CharacterAddedSubscription$variables;
 };
 
 const node: ConcreteRequest = (function(){
-var v0 = {
+var v0 = [
+  {
+    "defaultValue": null,
+    "kind": "LocalArgument",
+    "name": "bookId"
+  }
+],
+v1 = [
+  {
+    "kind": "Variable",
+    "name": "bookId",
+    "variableName": "bookId"
+  }
+],
+v2 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
   "name": "id",
   "storageKey": null
 },
-v1 = [
+v3 = [
   {
     "kind": "Literal",
     "name": "first",
@@ -39,20 +54,19 @@ v1 = [
 ];
 return {
   "fragment": {
-    "argumentDefinitions": [],
+    "argumentDefinitions": (v0/*: any*/),
     "kind": "Fragment",
     "metadata": null,
-    "name": "BookAddedSubscription",
+    "name": "CharacterAddedSubscription",
     "selections": [
       {
         "alias": null,
-        "args": null,
+        "args": (v1/*: any*/),
         "concreteType": "Book",
         "kind": "LinkedField",
-        "name": "onBookAdded",
+        "name": "onCharacterAdded",
         "plural": false,
         "selections": [
-          (v0/*: any*/),
           {
             "args": null,
             "kind": "FragmentSpread",
@@ -67,19 +81,19 @@ return {
   },
   "kind": "Request",
   "operation": {
-    "argumentDefinitions": [],
+    "argumentDefinitions": (v0/*: any*/),
     "kind": "Operation",
-    "name": "BookAddedSubscription",
+    "name": "CharacterAddedSubscription",
     "selections": [
       {
         "alias": null,
-        "args": null,
+        "args": (v1/*: any*/),
         "concreteType": "Book",
         "kind": "LinkedField",
-        "name": "onBookAdded",
+        "name": "onCharacterAdded",
         "plural": false,
         "selections": [
-          (v0/*: any*/),
+          (v2/*: any*/),
           {
             "alias": null,
             "args": null,
@@ -89,7 +103,7 @@ return {
           },
           {
             "alias": null,
-            "args": (v1/*: any*/),
+            "args": (v3/*: any*/),
             "concreteType": "CharactersConnection",
             "kind": "LinkedField",
             "name": "characters",
@@ -125,7 +139,7 @@ return {
                         "name": "name",
                         "storageKey": null
                       },
-                      (v0/*: any*/),
+                      (v2/*: any*/),
                       {
                         "alias": null,
                         "args": null,
@@ -169,7 +183,7 @@ return {
           },
           {
             "alias": null,
-            "args": (v1/*: any*/),
+            "args": (v3/*: any*/),
             "filters": null,
             "handle": "connection",
             "key": "BookDetails_book_characters",
@@ -182,16 +196,16 @@ return {
     ]
   },
   "params": {
-    "cacheID": "1de4665a0037d867651cc7873ed16ea8",
+    "cacheID": "1ce3f6dc00ddf1ac4a8838ce272be4d5",
     "id": null,
     "metadata": {},
-    "name": "BookAddedSubscription",
+    "name": "CharacterAddedSubscription",
     "operationKind": "subscription",
-    "text": "subscription BookAddedSubscription {\n  onBookAdded {\n    id\n    ...BookDetails_book\n  }\n}\n\nfragment BookDetails_book on Book {\n  id\n  title\n  characters(first: 5) {\n    edges {\n      cursor\n      node {\n        name\n        id\n        __typename\n      }\n    }\n    pageInfo {\n      hasNextPage\n      endCursor\n    }\n  }\n}\n"
+    "text": "subscription CharacterAddedSubscription(\n  $bookId: ID!\n) {\n  onCharacterAdded(bookId: $bookId) {\n    ...BookDetails_book\n    id\n  }\n}\n\nfragment BookDetails_book on Book {\n  id\n  title\n  characters(first: 5) {\n    edges {\n      cursor\n      node {\n        name\n        id\n        __typename\n      }\n    }\n    pageInfo {\n      hasNextPage\n      endCursor\n    }\n  }\n}\n"
   }
 };
 })();
 
-(node as any).hash = "08cd5effb310f5ef05de5eafda774d1e";
+(node as any).hash = "e2bc965b45c84d756c2a2ac8844a7bc5";
 
 export default node;

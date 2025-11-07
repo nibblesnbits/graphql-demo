@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<01b006b63adf87cf6e1aa775749e921e>>
+ * @generated SignedSource<<e80112ab405dd056e6481ba30633704c>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -10,19 +10,26 @@
 
 import { ConcreteRequest } from 'relay-runtime';
 import { FragmentRefs } from "relay-runtime";
-export type BookQuery$variables = {
-  id: string;
+export type AddBookInput = {
+  input: BookInput;
 };
-export type BookQuery$data = {
-  readonly node: {
-    readonly id: string;
-    readonly title?: string | null | undefined;
-    readonly " $fragmentSpreads": FragmentRefs<"BookDetails_book">;
-  } | null | undefined;
+export type BookInput = {
+  title: string;
 };
-export type BookQuery = {
-  response: BookQuery$data;
-  variables: BookQuery$variables;
+export type AddBookFormContainer_AddBookMutation$variables = {
+  addBookInput: AddBookInput;
+};
+export type AddBookFormContainer_AddBookMutation$data = {
+  readonly addBook: {
+    readonly book: {
+      readonly id: string;
+      readonly " $fragmentSpreads": FragmentRefs<"BookDetails_book">;
+    } | null | undefined;
+  };
+};
+export type AddBookFormContainer_AddBookMutation = {
+  response: AddBookFormContainer_AddBookMutation$data;
+  variables: AddBookFormContainer_AddBookMutation$variables;
 };
 
 const node: ConcreteRequest = (function(){
@@ -30,14 +37,14 @@ var v0 = [
   {
     "defaultValue": null,
     "kind": "LocalArgument",
-    "name": "id"
+    "name": "addBookInput"
   }
 ],
 v1 = [
   {
     "kind": "Variable",
-    "name": "id",
-    "variableName": "id"
+    "name": "input",
+    "variableName": "addBookInput"
   }
 ],
 v2 = {
@@ -47,21 +54,7 @@ v2 = {
   "name": "id",
   "storageKey": null
 },
-v3 = {
-  "alias": null,
-  "args": null,
-  "kind": "ScalarField",
-  "name": "title",
-  "storageKey": null
-},
-v4 = {
-  "alias": null,
-  "args": null,
-  "kind": "ScalarField",
-  "name": "__typename",
-  "storageKey": null
-},
-v5 = [
+v3 = [
   {
     "kind": "Literal",
     "name": "first",
@@ -73,60 +66,73 @@ return {
     "argumentDefinitions": (v0/*: any*/),
     "kind": "Fragment",
     "metadata": null,
-    "name": "BookQuery",
+    "name": "AddBookFormContainer_AddBookMutation",
     "selections": [
       {
         "alias": null,
         "args": (v1/*: any*/),
-        "concreteType": null,
+        "concreteType": "AddBookPayload",
         "kind": "LinkedField",
-        "name": "node",
+        "name": "addBook",
         "plural": false,
         "selections": [
-          (v2/*: any*/),
           {
-            "kind": "InlineFragment",
+            "alias": null,
+            "args": null,
+            "concreteType": "Book",
+            "kind": "LinkedField",
+            "name": "book",
+            "plural": false,
             "selections": [
-              (v3/*: any*/),
+              (v2/*: any*/),
               {
                 "args": null,
                 "kind": "FragmentSpread",
                 "name": "BookDetails_book"
               }
             ],
-            "type": "Book",
-            "abstractKey": null
+            "storageKey": null
           }
         ],
         "storageKey": null
       }
     ],
-    "type": "Query",
+    "type": "Mutation",
     "abstractKey": null
   },
   "kind": "Request",
   "operation": {
     "argumentDefinitions": (v0/*: any*/),
     "kind": "Operation",
-    "name": "BookQuery",
+    "name": "AddBookFormContainer_AddBookMutation",
     "selections": [
       {
         "alias": null,
         "args": (v1/*: any*/),
-        "concreteType": null,
+        "concreteType": "AddBookPayload",
         "kind": "LinkedField",
-        "name": "node",
+        "name": "addBook",
         "plural": false,
         "selections": [
-          (v4/*: any*/),
-          (v2/*: any*/),
           {
-            "kind": "InlineFragment",
+            "alias": null,
+            "args": null,
+            "concreteType": "Book",
+            "kind": "LinkedField",
+            "name": "book",
+            "plural": false,
             "selections": [
-              (v3/*: any*/),
+              (v2/*: any*/),
               {
                 "alias": null,
-                "args": (v5/*: any*/),
+                "args": null,
+                "kind": "ScalarField",
+                "name": "title",
+                "storageKey": null
+              },
+              {
+                "alias": null,
+                "args": (v3/*: any*/),
                 "concreteType": "CharactersConnection",
                 "kind": "LinkedField",
                 "name": "characters",
@@ -163,7 +169,13 @@ return {
                             "storageKey": null
                           },
                           (v2/*: any*/),
-                          (v4/*: any*/)
+                          {
+                            "alias": null,
+                            "args": null,
+                            "kind": "ScalarField",
+                            "name": "__typename",
+                            "storageKey": null
+                          }
                         ],
                         "storageKey": null
                       }
@@ -200,7 +212,7 @@ return {
               },
               {
                 "alias": null,
-                "args": (v5/*: any*/),
+                "args": (v3/*: any*/),
                 "filters": null,
                 "handle": "connection",
                 "key": "BookDetails_book_characters",
@@ -208,8 +220,7 @@ return {
                 "name": "characters"
               }
             ],
-            "type": "Book",
-            "abstractKey": null
+            "storageKey": null
           }
         ],
         "storageKey": null
@@ -217,16 +228,16 @@ return {
     ]
   },
   "params": {
-    "cacheID": "e24642daf477fafe232dbe7b7282d7c8",
+    "cacheID": "46f5f3d1a4bdbe53bbc1a09039865e11",
     "id": null,
     "metadata": {},
-    "name": "BookQuery",
-    "operationKind": "query",
-    "text": "query BookQuery(\n  $id: ID!\n) {\n  node(id: $id) {\n    __typename\n    id\n    ... on Book {\n      title\n      ...BookDetails_book\n    }\n  }\n}\n\nfragment BookDetails_book on Book {\n  id\n  title\n  characters(first: 5) {\n    edges {\n      cursor\n      node {\n        name\n        id\n        __typename\n      }\n    }\n    pageInfo {\n      hasNextPage\n      endCursor\n    }\n  }\n}\n"
+    "name": "AddBookFormContainer_AddBookMutation",
+    "operationKind": "mutation",
+    "text": "mutation AddBookFormContainer_AddBookMutation(\n  $addBookInput: AddBookInput!\n) {\n  addBook(input: $addBookInput) {\n    book {\n      id\n      ...BookDetails_book\n    }\n  }\n}\n\nfragment BookDetails_book on Book {\n  id\n  title\n  characters(first: 5) {\n    edges {\n      cursor\n      node {\n        name\n        id\n        __typename\n      }\n    }\n    pageInfo {\n      hasNextPage\n      endCursor\n    }\n  }\n}\n"
   }
 };
 })();
 
-(node as any).hash = "a4a3aad9ad76be4efa3d15ef59fdb880";
+(node as any).hash = "1c9290ada907a974f2d82750a0b40a4b";
 
 export default node;

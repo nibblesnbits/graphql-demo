@@ -1,9 +1,18 @@
 
+using Demo.Data.Books;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services
+    .AddDbContextFactory<BooksDbContext>(
+        options => options.UseInMemoryDatabase("BooksDb"));
 
 builder
     .AddGraphQL()
+    .RegisterDbContextFactory<BooksDbContext>()
     .AddTypes()
+    .AddDbContextCursorPagingProvider()
     .AddMutationConventions()
     .AddGlobalObjectIdentification()
     .AddInMemorySubscriptions()
@@ -15,6 +24,5 @@ app.UseWebSockets();
 
 app.MapGraphQL();
 
-// This is the command-line entry that triggers the schema export
 app.RunWithGraphQLCommands(args);
 

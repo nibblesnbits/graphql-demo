@@ -1,8 +1,14 @@
+using Demo.Data.Books;
+using Demo.Data.Books.Models;
+
 namespace Demo.UserGraph.Types;
 
 [QueryType]
 public class Query {
-    public Book GetBook([ID<Book>] Guid id) => Book.GetFakeBook(id);
-    public IEnumerable<Book> GetBooks(int count) => Book.GetFakeBooks(count);
+    public async Task<Book?> GetBook([ID<Book>]Guid id, BooksDbContext dbContext) =>
+        await dbContext.Books.FindAsync(id);
+
+    public IQueryable<Book> GetBooks(BooksDbContext dbContext) =>
+        dbContext.Books;
 
 }

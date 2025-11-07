@@ -6,19 +6,27 @@ import { useMutation } from "react-relay";
 import { useLocation } from "wouter";
 import { graphql } from "relay-runtime";
 import type {
-  BookFormPage_AddBookMutation,
-  BookFormPage_AddBookMutation$variables,
-} from "./__generated__/BookFormPage_AddBookMutation.graphql";
+  AddBookFormContainer_AddBookMutation,
+  AddBookFormContainer_AddBookMutation$variables,
+} from "./__generated__/AddBookFormContainer_AddBookMutation.graphql";
 
-export default function BookFormPage() {
+export default function AddBookFormContainer() {
   const [, navTo] = useLocation();
+
   const handleSubmitForm = (data: CreateBookFormInputs) => {
-    console.log("Form submitted with data:", data);
+    addBook({
+      input: {
+        ...data,
+      },
+    });
   };
+
   const [addBookErrors, setAddBookErrors] = useState<Error[]>([]);
-  const [addBookMutation] = useMutation<BookFormPage_AddBookMutation>(
+  const [addBookMutation] = useMutation<AddBookFormContainer_AddBookMutation>(
     graphql`
-      mutation BookFormPage_AddBookMutation($addBookInput: AddBookInput!) {
+      mutation AddBookFormContainer_AddBookMutation(
+        $addBookInput: AddBookInput!
+      ) {
         addBook(input: $addBookInput) {
           book {
             id
@@ -30,11 +38,11 @@ export default function BookFormPage() {
   );
 
   const addBook = (
-    createBookInput: BookFormPage_AddBookMutation$variables["createBookInput"]
+    addBookInput: AddBookFormContainer_AddBookMutation$variables["addBookInput"]
   ) => {
     addBookMutation({
       variables: {
-        createBookInput,
+        addBookInput,
       },
       onError(error) {
         setAddBookErrors([error]);

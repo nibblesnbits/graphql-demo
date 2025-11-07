@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<01b006b63adf87cf6e1aa775749e921e>>
+ * @generated SignedSource<<7e2fe8d400d483df08455c747288190e>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -10,23 +10,33 @@
 
 import { ConcreteRequest } from 'relay-runtime';
 import { FragmentRefs } from "relay-runtime";
-export type BookQuery$variables = {
+export type BookDetails_book_paginationQuery$variables = {
+  count?: number | null | undefined;
+  cursor?: string | null | undefined;
   id: string;
 };
-export type BookQuery$data = {
+export type BookDetails_book_paginationQuery$data = {
   readonly node: {
-    readonly id: string;
-    readonly title?: string | null | undefined;
     readonly " $fragmentSpreads": FragmentRefs<"BookDetails_book">;
   } | null | undefined;
 };
-export type BookQuery = {
-  response: BookQuery$data;
-  variables: BookQuery$variables;
+export type BookDetails_book_paginationQuery = {
+  response: BookDetails_book_paginationQuery$data;
+  variables: BookDetails_book_paginationQuery$variables;
 };
 
 const node: ConcreteRequest = (function(){
 var v0 = [
+  {
+    "defaultValue": 5,
+    "kind": "LocalArgument",
+    "name": "count"
+  },
+  {
+    "defaultValue": null,
+    "kind": "LocalArgument",
+    "name": "cursor"
+  },
   {
     "defaultValue": null,
     "kind": "LocalArgument",
@@ -44,28 +54,26 @@ v2 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
-  "name": "id",
+  "name": "__typename",
   "storageKey": null
 },
 v3 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
-  "name": "title",
+  "name": "id",
   "storageKey": null
 },
-v4 = {
-  "alias": null,
-  "args": null,
-  "kind": "ScalarField",
-  "name": "__typename",
-  "storageKey": null
-},
-v5 = [
+v4 = [
   {
-    "kind": "Literal",
+    "kind": "Variable",
+    "name": "after",
+    "variableName": "cursor"
+  },
+  {
+    "kind": "Variable",
     "name": "first",
-    "value": 5
+    "variableName": "count"
   }
 ];
 return {
@@ -73,7 +81,7 @@ return {
     "argumentDefinitions": (v0/*: any*/),
     "kind": "Fragment",
     "metadata": null,
-    "name": "BookQuery",
+    "name": "BookDetails_book_paginationQuery",
     "selections": [
       {
         "alias": null,
@@ -83,19 +91,21 @@ return {
         "name": "node",
         "plural": false,
         "selections": [
-          (v2/*: any*/),
           {
-            "kind": "InlineFragment",
-            "selections": [
-              (v3/*: any*/),
+            "args": [
               {
-                "args": null,
-                "kind": "FragmentSpread",
-                "name": "BookDetails_book"
+                "kind": "Variable",
+                "name": "count",
+                "variableName": "count"
+              },
+              {
+                "kind": "Variable",
+                "name": "cursor",
+                "variableName": "cursor"
               }
             ],
-            "type": "Book",
-            "abstractKey": null
+            "kind": "FragmentSpread",
+            "name": "BookDetails_book"
           }
         ],
         "storageKey": null
@@ -108,7 +118,7 @@ return {
   "operation": {
     "argumentDefinitions": (v0/*: any*/),
     "kind": "Operation",
-    "name": "BookQuery",
+    "name": "BookDetails_book_paginationQuery",
     "selections": [
       {
         "alias": null,
@@ -118,15 +128,21 @@ return {
         "name": "node",
         "plural": false,
         "selections": [
-          (v4/*: any*/),
           (v2/*: any*/),
+          (v3/*: any*/),
           {
             "kind": "InlineFragment",
             "selections": [
-              (v3/*: any*/),
               {
                 "alias": null,
-                "args": (v5/*: any*/),
+                "args": null,
+                "kind": "ScalarField",
+                "name": "title",
+                "storageKey": null
+              },
+              {
+                "alias": null,
+                "args": (v4/*: any*/),
                 "concreteType": "CharactersConnection",
                 "kind": "LinkedField",
                 "name": "characters",
@@ -162,8 +178,8 @@ return {
                             "name": "name",
                             "storageKey": null
                           },
-                          (v2/*: any*/),
-                          (v4/*: any*/)
+                          (v3/*: any*/),
+                          (v2/*: any*/)
                         ],
                         "storageKey": null
                       }
@@ -196,11 +212,11 @@ return {
                     "storageKey": null
                   }
                 ],
-                "storageKey": "characters(first:5)"
+                "storageKey": null
               },
               {
                 "alias": null,
-                "args": (v5/*: any*/),
+                "args": (v4/*: any*/),
                 "filters": null,
                 "handle": "connection",
                 "key": "BookDetails_book_characters",
@@ -217,16 +233,16 @@ return {
     ]
   },
   "params": {
-    "cacheID": "e24642daf477fafe232dbe7b7282d7c8",
+    "cacheID": "bf5b7105fc7d33f10fe726562925f711",
     "id": null,
     "metadata": {},
-    "name": "BookQuery",
+    "name": "BookDetails_book_paginationQuery",
     "operationKind": "query",
-    "text": "query BookQuery(\n  $id: ID!\n) {\n  node(id: $id) {\n    __typename\n    id\n    ... on Book {\n      title\n      ...BookDetails_book\n    }\n  }\n}\n\nfragment BookDetails_book on Book {\n  id\n  title\n  characters(first: 5) {\n    edges {\n      cursor\n      node {\n        name\n        id\n        __typename\n      }\n    }\n    pageInfo {\n      hasNextPage\n      endCursor\n    }\n  }\n}\n"
+    "text": "query BookDetails_book_paginationQuery(\n  $count: Int = 5\n  $cursor: String\n  $id: ID!\n) {\n  node(id: $id) {\n    __typename\n    ...BookDetails_book_1G22uz\n    id\n  }\n}\n\nfragment BookDetails_book_1G22uz on Book {\n  id\n  title\n  characters(after: $cursor, first: $count) {\n    edges {\n      cursor\n      node {\n        name\n        id\n        __typename\n      }\n    }\n    pageInfo {\n      hasNextPage\n      endCursor\n    }\n  }\n}\n"
   }
 };
 })();
 
-(node as any).hash = "a4a3aad9ad76be4efa3d15ef59fdb880";
+(node as any).hash = "c6cd482fbb46cff28520bc22d701d26e";
 
 export default node;

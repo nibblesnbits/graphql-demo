@@ -3,9 +3,9 @@ import { graphql } from "relay-runtime";
 
 export const HomeQueryDef = graphql`
   query HomeQuery {
-    books(count: 10) {
+    books {
       id
-      ...Book_item
+      ...BookDetails_book
     }
   }
 `;

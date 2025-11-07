@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<02c1a578f37940b7ca698936f80b07a8>>
+ * @generated SignedSource<<7b159fabd9d0862ff9809d60342ab916>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -14,7 +14,7 @@ export type HomeQuery$variables = Record<PropertyKey, never>;
 export type HomeQuery$data = {
   readonly books: ReadonlyArray<{
     readonly id: string;
-    readonly " $fragmentSpreads": FragmentRefs<"Book_item">;
+    readonly " $fragmentSpreads": FragmentRefs<"BookDetails_book">;
   }>;
 };
 export type HomeQuery = {
@@ -23,20 +23,20 @@ export type HomeQuery = {
 };
 
 const node: ConcreteRequest = (function(){
-var v0 = [
-  {
-    "kind": "Literal",
-    "name": "count",
-    "value": 10
-  }
-],
-v1 = {
+var v0 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
   "name": "id",
   "storageKey": null
-};
+},
+v1 = [
+  {
+    "kind": "Literal",
+    "name": "first",
+    "value": 5
+  }
+];
 return {
   "fragment": {
     "argumentDefinitions": [],
@@ -46,20 +46,20 @@ return {
     "selections": [
       {
         "alias": null,
-        "args": (v0/*: any*/),
+        "args": null,
         "concreteType": "Book",
         "kind": "LinkedField",
         "name": "books",
         "plural": true,
         "selections": [
-          (v1/*: any*/),
+          (v0/*: any*/),
           {
             "args": null,
             "kind": "FragmentSpread",
-            "name": "Book_item"
+            "name": "BookDetails_book"
           }
         ],
-        "storageKey": "books(count:10)"
+        "storageKey": null
       }
     ],
     "type": "Query",
@@ -73,13 +73,13 @@ return {
     "selections": [
       {
         "alias": null,
-        "args": (v0/*: any*/),
+        "args": null,
         "concreteType": "Book",
         "kind": "LinkedField",
         "name": "books",
         "plural": true,
         "selections": [
-          (v1/*: any*/),
+          (v0/*: any*/),
           {
             "alias": null,
             "args": null,
@@ -89,38 +89,109 @@ return {
           },
           {
             "alias": null,
-            "args": null,
-            "concreteType": "Author",
+            "args": (v1/*: any*/),
+            "concreteType": "CharactersConnection",
             "kind": "LinkedField",
-            "name": "author",
+            "name": "characters",
             "plural": false,
             "selections": [
               {
                 "alias": null,
                 "args": null,
-                "kind": "ScalarField",
-                "name": "name",
+                "concreteType": "CharactersEdge",
+                "kind": "LinkedField",
+                "name": "edges",
+                "plural": true,
+                "selections": [
+                  {
+                    "alias": null,
+                    "args": null,
+                    "kind": "ScalarField",
+                    "name": "cursor",
+                    "storageKey": null
+                  },
+                  {
+                    "alias": null,
+                    "args": null,
+                    "concreteType": "Character",
+                    "kind": "LinkedField",
+                    "name": "node",
+                    "plural": false,
+                    "selections": [
+                      {
+                        "alias": null,
+                        "args": null,
+                        "kind": "ScalarField",
+                        "name": "name",
+                        "storageKey": null
+                      },
+                      (v0/*: any*/),
+                      {
+                        "alias": null,
+                        "args": null,
+                        "kind": "ScalarField",
+                        "name": "__typename",
+                        "storageKey": null
+                      }
+                    ],
+                    "storageKey": null
+                  }
+                ],
+                "storageKey": null
+              },
+              {
+                "alias": null,
+                "args": null,
+                "concreteType": "PageInfo",
+                "kind": "LinkedField",
+                "name": "pageInfo",
+                "plural": false,
+                "selections": [
+                  {
+                    "alias": null,
+                    "args": null,
+                    "kind": "ScalarField",
+                    "name": "hasNextPage",
+                    "storageKey": null
+                  },
+                  {
+                    "alias": null,
+                    "args": null,
+                    "kind": "ScalarField",
+                    "name": "endCursor",
+                    "storageKey": null
+                  }
+                ],
                 "storageKey": null
               }
             ],
-            "storageKey": null
+            "storageKey": "characters(first:5)"
+          },
+          {
+            "alias": null,
+            "args": (v1/*: any*/),
+            "filters": null,
+            "handle": "connection",
+            "key": "BookDetails_book_characters",
+            "kind": "LinkedHandle",
+            "name": "characters"
           }
         ],
-        "storageKey": "books(count:10)"
+        "storageKey": null
       }
     ]
   },
   "params": {
-    "cacheID": "8b952ad5c2bec3d83197f65ddc609324",
+    "cacheID": "77fefd028248468131d300e5a5f0294c",
     "id": null,
     "metadata": {},
     "name": "HomeQuery",
     "operationKind": "query",
-    "text": "query HomeQuery {\n  books(count: 10) {\n    id\n    ...Book_item\n  }\n}\n\nfragment Book_item on Book {\n  id\n  title\n  author {\n    name\n  }\n}\n"
+    "text": "query HomeQuery {\n  books {\n    id\n    ...BookDetails_book\n  }\n}\n\nfragment BookDetails_book on Book {\n  id\n  title\n  characters(first: 5) {\n    edges {\n      cursor\n      node {\n        name\n        id\n        __typename\n      }\n    }\n    pageInfo {\n      hasNextPage\n      endCursor\n    }\n  }\n}\n"
   }
 };
 })();
 
-(node as any).hash = "00cfecf97de798b9605dbcbe401dde20";
+(node as any).hash = "b1cd70283dc8673d24b64871dbb98941";
 
 export default node;

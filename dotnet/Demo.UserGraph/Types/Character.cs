@@ -1,11 +1,8 @@
+using Demo.Data.Books;
+using Demo.Data.Books.Models;
+using Microsoft.EntityFrameworkCore;
+
 namespace Demo.UserGraph.Types;
-
-public class Character(int id, string name) {
-
-    public int Id => id;
-    public string Name => name;
-    public override string ToString() => name;
-}
 
 public class CharacterObjectType : ObjectType<Character> {
     protected override void Configure(IObjectTypeDescriptor<Character> descriptor) {
@@ -13,7 +10,9 @@ public class CharacterObjectType : ObjectType<Character> {
             .ImplementsNode()
             .IdField(f => f.Id)
             .ResolveNode(async (context, id) => {
-                return new Character(1, "test");
+                var factory = context.Service<IDbContextFactory<BooksDbContext>>();
+                using var dbContext = await factory.CreateDbContextAsync();
+                return await dbContext.Characters.FindAsync([id]);
             });
     }
 }

@@ -9,12 +9,22 @@ interface Node {
   id: ID!
 }
 
+type AddAuthorPayload {
+  author: Author
+}
+
 type AddBookPayload {
   book: Book
 }
 
-type Author {
+type AddCharacterPayload {
+  character: Character
+}
+
+type Author implements Node {
+  id: ID!
   name: String!
+  books: [Book!]!
 }
 
 type Book implements Node {
@@ -36,13 +46,14 @@ type Book implements Node {
       sizedFields: ["edges", "nodes"]
       requireOneSlicingArgument: false
     )
-  title: String!
-  author: Author!
+  title: String
+  author: Author
 }
 
 type Character implements Node {
   id: ID!
   name: String!
+  books: [Book!]!
 }
 
 "A connection to a list of items."
@@ -65,6 +76,9 @@ type CharactersEdge {
 
 type Mutation {
   addBook(input: AddBookInput!): AddBookPayload! @cost(weight: "10")
+  addAuthor(input: AddAuthorInput!): AddAuthorPayload! @cost(weight: "10")
+  addCharacter(input: AddCharacterInput!): AddCharacterPayload!
+    @cost(weight: "10")
 }
 
 "Information about pagination in a connection."
@@ -84,20 +98,36 @@ type Query {
   node("ID of the object." id: ID!): Node @cost(weight: "10")
   "Lookup nodes by a list of IDs."
   nodes("The list of node IDs." ids: [ID!]!): [Node]! @cost(weight: "10")
-  book(id: ID!): Book!
-  books(count: Int!): [Book!]!
+  book(id: ID!): Book @cost(weight: "10")
+  books: [Book!]! @cost(weight: "10")
 }
 
 type Subscription {
-  onBookAdded: Book! @cost(weight: "10")
+  onCharacterAdded(bookId: ID!): Book @cost(weight: "10")
+}
+
+input AddAuthorInput {
+  input: AuthorInput!
 }
 
 input AddBookInput {
   input: BookInput!
 }
 
+input AddCharacterInput {
+  input: CharacterInput!
+}
+
+input AuthorInput {
+  name: String!
+}
+
 input BookInput {
   title: String!
+}
+
+input CharacterInput {
+  name: String!
 }
 
 "The purpose of the `cost` directive is to define a `weight` for GraphQL types, fields, and arguments. Static analysis can use these weights when calculating the overall cost of a query or response."

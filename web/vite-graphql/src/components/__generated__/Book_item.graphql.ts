@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<794264be3d228604341977b6e6f68db6>>
+ * @generated SignedSource<<f2d6d0b6ee80b90b3d7a36492a61431e>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -13,9 +13,9 @@ import { FragmentRefs } from "relay-runtime";
 export type Book_item$data = {
   readonly author: {
     readonly name: string;
-  };
+  } | null | undefined;
   readonly id: string;
-  readonly title: string;
+  readonly title: string | null | undefined;
   readonly " $fragmentType": "Book_item";
 };
 export type Book_item$key = {

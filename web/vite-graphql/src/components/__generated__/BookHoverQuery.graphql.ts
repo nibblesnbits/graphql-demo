@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<0d084fcb0549e4854c960150f9984374>>
+ * @generated SignedSource<<067ad5cb9517bebcc84c01e6f3ce8a47>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -16,9 +16,9 @@ export type BookHoverQuery$variables = {
 export type BookHoverQuery$data = {
   readonly book: {
     readonly id: string;
-    readonly title: string;
-    readonly " $fragmentSpreads": FragmentRefs<"Book_item">;
-  };
+    readonly title: string | null | undefined;
+    readonly " $fragmentSpreads": FragmentRefs<"BookDetails_book">;
+  } | null | undefined;
 };
 export type BookHoverQuery = {
   response: BookHoverQuery$data;
@@ -53,7 +53,14 @@ v3 = {
   "kind": "ScalarField",
   "name": "title",
   "storageKey": null
-};
+},
+v4 = [
+  {
+    "kind": "Literal",
+    "name": "first",
+    "value": 5
+  }
+];
 return {
   "fragment": {
     "argumentDefinitions": (v0/*: any*/),
@@ -74,7 +81,7 @@ return {
           {
             "args": null,
             "kind": "FragmentSpread",
-            "name": "Book_item"
+            "name": "BookDetails_book"
           }
         ],
         "storageKey": null
@@ -101,21 +108,92 @@ return {
           (v3/*: any*/),
           {
             "alias": null,
-            "args": null,
-            "concreteType": "Author",
+            "args": (v4/*: any*/),
+            "concreteType": "CharactersConnection",
             "kind": "LinkedField",
-            "name": "author",
+            "name": "characters",
             "plural": false,
             "selections": [
               {
                 "alias": null,
                 "args": null,
-                "kind": "ScalarField",
-                "name": "name",
+                "concreteType": "CharactersEdge",
+                "kind": "LinkedField",
+                "name": "edges",
+                "plural": true,
+                "selections": [
+                  {
+                    "alias": null,
+                    "args": null,
+                    "kind": "ScalarField",
+                    "name": "cursor",
+                    "storageKey": null
+                  },
+                  {
+                    "alias": null,
+                    "args": null,
+                    "concreteType": "Character",
+                    "kind": "LinkedField",
+                    "name": "node",
+                    "plural": false,
+                    "selections": [
+                      {
+                        "alias": null,
+                        "args": null,
+                        "kind": "ScalarField",
+                        "name": "name",
+                        "storageKey": null
+                      },
+                      (v2/*: any*/),
+                      {
+                        "alias": null,
+                        "args": null,
+                        "kind": "ScalarField",
+                        "name": "__typename",
+                        "storageKey": null
+                      }
+                    ],
+                    "storageKey": null
+                  }
+                ],
+                "storageKey": null
+              },
+              {
+                "alias": null,
+                "args": null,
+                "concreteType": "PageInfo",
+                "kind": "LinkedField",
+                "name": "pageInfo",
+                "plural": false,
+                "selections": [
+                  {
+                    "alias": null,
+                    "args": null,
+                    "kind": "ScalarField",
+                    "name": "hasNextPage",
+                    "storageKey": null
+                  },
+                  {
+                    "alias": null,
+                    "args": null,
+                    "kind": "ScalarField",
+                    "name": "endCursor",
+                    "storageKey": null
+                  }
+                ],
                 "storageKey": null
               }
             ],
-            "storageKey": null
+            "storageKey": "characters(first:5)"
+          },
+          {
+            "alias": null,
+            "args": (v4/*: any*/),
+            "filters": null,
+            "handle": "connection",
+            "key": "BookDetails_book_characters",
+            "kind": "LinkedHandle",
+            "name": "characters"
           }
         ],
         "storageKey": null
@@ -123,16 +201,16 @@ return {
     ]
   },
   "params": {
-    "cacheID": "09218fd4bf9a63458aa5bec05eef3d30",
+    "cacheID": "e36e67815629d2a87297da0cf9018f2b",
     "id": null,
     "metadata": {},
     "name": "BookHoverQuery",
     "operationKind": "query",
-    "text": "query BookHoverQuery(\n  $id: ID!\n) {\n  book(id: $id) {\n    id\n    title\n    ...Book_item\n  }\n}\n\nfragment Book_item on Book {\n  id\n  title\n  author {\n    name\n  }\n}\n"
+    "text": "query BookHoverQuery(\n  $id: ID!\n) {\n  book(id: $id) {\n    id\n    title\n    ...BookDetails_book\n  }\n}\n\nfragment BookDetails_book on Book {\n  id\n  title\n  characters(first: 5) {\n    edges {\n      cursor\n      node {\n        name\n        id\n        __typename\n      }\n    }\n    pageInfo {\n      hasNextPage\n      endCursor\n    }\n  }\n}\n"
   }
 };
 })();
 
-(node as any).hash = "c5de1a5f66fa95bb8a8fc1d0bdf16329";
+(node as any).hash = "ec378b12fb427826405c2c43a5d46ff3";
 
 export default node;
