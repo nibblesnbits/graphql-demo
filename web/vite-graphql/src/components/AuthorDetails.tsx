@@ -1,6 +1,6 @@
 import { useFragment } from "react-relay";
 import AuthorDetailsFragment from "@/fragments/AuthorDetails";
-import type { AuthorDetails_author$key } from "./__generated__/AuthorDetails_author.graphql";
+import type { AuthorDetails_author$key } from "@/fragments/__generated__/AuthorDetails_author.graphql";
 
 export default function AuthorDetails(props: {
   author: AuthorDetails_author$key;
@@ -19,8 +19,12 @@ export default function AuthorDetails(props: {
           </tr>
         </thead>
         <tbody>
-          {data.books.map((book) =>
-            book ? (
+          {data.books.map((book) => {
+            if (!book) {
+              return null;
+            }
+
+            return (
               <tr key={book.id}>
                 <td>
                   <a href={`/books/${encodeURIComponent(book.id)}`}>
@@ -28,8 +32,8 @@ export default function AuthorDetails(props: {
                   </a>
                 </td>
               </tr>
-            ) : null
-          )}
+            );
+          })}
         </tbody>
       </table>
     </>

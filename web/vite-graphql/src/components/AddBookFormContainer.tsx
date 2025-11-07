@@ -1,7 +1,5 @@
 import { useState } from "react";
-import CreateBookForm, {
-  type CreateBookFormInputs,
-} from "../../components/CreateBookForm";
+import CreateBookForm, { type CreateBookFormInputs } from "./CreateBookForm";
 import { useMutation } from "react-relay";
 import { useLocation } from "wouter";
 import { graphql } from "relay-runtime";

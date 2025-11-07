@@ -11,4 +11,11 @@ public class Query {
     public IQueryable<Book> GetBooks(BooksDbContext dbContext) =>
         dbContext.Books;
 
+    public IQueryable<Author> GetAuthors(BooksDbContext dbContext) =>
+        dbContext.Authors;
+
+    [UsePaging(typeof(CharacterObjectType))]
+    public IQueryable<Character> GetCharacters(BooksDbContext dbContext) =>
+        dbContext.Characters;
+
 }
