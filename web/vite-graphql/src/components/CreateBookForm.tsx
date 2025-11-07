@@ -5,18 +5,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 
 const FormSchema = z.object({
   title: z.string(),
-  author: z
-    .object({
-      name: z.string(),
-    })
-    .optional(),
-  characters: z
-    .array(
-      z.object({
-        name: z.string(),
-      })
-    )
-    .optional(),
+  authorId: z.string(),
 });
 
 export type CreateBookFormInputs = z.infer<typeof FormSchema>;
@@ -35,6 +24,7 @@ export default function CreateBookForm({
     resolver: zodResolver(FormSchema),
     defaultValues: {
       title: "",
+      authorId: "",
     },
   });
 
@@ -46,6 +36,9 @@ export default function CreateBookForm({
       <input {...register("title", { required: true })} />
       {/* errors will return when field validation fails  */}
       {errors.title && <span>This field is required</span>}
+
+      <input {...register("authorId", { required: true })} />
+      {errors.authorId && <span>This field is required</span>}
 
       <input type="submit" />
     </form>

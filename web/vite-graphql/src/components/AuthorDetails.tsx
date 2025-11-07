@@ -1,6 +1,7 @@
 import { useFragment } from "react-relay";
 import AuthorDetailsFragment from "@/fragments/AuthorDetails";
 import type { AuthorDetails_author$key } from "@/fragments/__generated__/AuthorDetails_author.graphql";
+import { Link } from "wouter";
 
 export default function AuthorDetails(props: {
   author: AuthorDetails_author$key;
@@ -9,7 +10,9 @@ export default function AuthorDetails(props: {
 
   return (
     <>
-      <h2>{data.name}</h2>
+      <h2>
+        <Link to={`/author/${encodeURIComponent(data.id)}`}>{data.name}</Link>
+      </h2>
       <table>
         <thead>
           <tr>
