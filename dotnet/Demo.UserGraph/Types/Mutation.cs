@@ -8,7 +8,10 @@ namespace Demo.UserGraph.Types;
 public class Mutation {
 
     public async Task<Book> AddBook(BooksDbContext dbContext, BookInput input, CancellationToken cancellationToken) {
-        var entity = dbContext.Books.Add(new Book { Title = input.Title, Id = Guid.NewGuid() });
+        if (await dbContext.Authors.FindAsync([input.AuthorId], cancellationToken) is not Author author) {
+            throw new GraphQLException($"Author with ID '{input.AuthorId}' not found.");
+        }
+        var entity = dbContext.Books.Add(new Book { Title = input.Title, Id = Guid.NewGuid(), Author = author });
         await dbContext.SaveChangesAsync(cancellationToken);
         return entity.Entity;
     }
@@ -20,7 +23,7 @@ public class Mutation {
         return entity.Entity;
     }
 
-    public async Task<Character> AddCharacter([Service] ITopicEventSender subscriptionSender, BooksDbContext dbContext, CharacterInput input, CancellationToken cancellationToken) {
+    public async Task<Character> AddCharacter(ITopicEventSender subscriptionSender, BooksDbContext dbContext, CharacterInput input, CancellationToken cancellationToken) {
 
         var entry = dbContext.Characters.Add(new Character { Name = input.Name });
         await dbContext.SaveChangesAsync(cancellationToken);
@@ -29,9 +32,15 @@ public class Mutation {
     }
 }
 
-public record BookInput(string Title);
+public record BookInput(string Title, [ID<Author>] Guid AuthorId);
 
-public class BookInputType : InputObjectType<BookInput>;
+public class BookInputType : InputObjectType<BookInput> {
+
+    override protected void Configure(IInputObjectTypeDescriptor<BookInput> descriptor) {
+        descriptor.Field(f => f.Title).Type<NonNullType<StringType>>();
+        descriptor.Field(f => f.AuthorId).ID<Author>();
+    }
+}
 
 public record AuthorInput(string Name);
 

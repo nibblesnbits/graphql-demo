@@ -154,6 +154,7 @@ input AuthorSortInput {
 
 input BookInput {
   title: String!
+  authorId: ID!
 }
 
 input CharacterInput {

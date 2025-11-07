@@ -41,8 +41,8 @@ export default function AddAuthorFormContainer() {
       onError(error) {
         setAddAuthorErrors([error]);
       },
-      onCompleted() {
-        // Intentionally left blank: keep user on the page for now.
+      onCompleted({ addAuthor: { author } }) {
+        console.log("Author created with ID:", author?.id);
       },
     });
   };

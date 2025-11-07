@@ -1,7 +1,9 @@
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import Autocomplete from "./Autocomplete";
+import "./Autocomplete.css";
 
 const FormSchema = z.object({
   title: z.string(),
@@ -12,13 +14,15 @@ export type CreateBookFormInputs = z.infer<typeof FormSchema>;
 
 export default function CreateBookForm({
   onSubmitForm,
+  search,
 }: {
   onSubmitForm: (data: CreateBookFormInputs) => void;
+  search: (term: string) => Promise<{ id: string; name: string }[]>;
 }) {
   const {
     register,
     handleSubmit,
-    watch,
+    control,
     formState: { errors },
   } = useForm<CreateBookFormInputs>({
     resolver: zodResolver(FormSchema),
@@ -28,17 +32,28 @@ export default function CreateBookForm({
     },
   });
 
-  console.log(watch("title"));
-
   return (
     <form onSubmit={handleSubmit(onSubmitForm)}>
       {/* include validation with required or other standard HTML validation rules */}
+      <label>Title</label>
       <input {...register("title", { required: true })} />
       {/* errors will return when field validation fails  */}
       {errors.title && <span>This field is required</span>}
 
-      <input {...register("authorId", { required: true })} />
-      {errors.authorId && <span>This field is required</span>}
+      <Controller
+        name="authorId"
+        control={control}
+        render={({ field, fieldState: { error } }) => (
+          <Autocomplete
+            value={field.value}
+            onChange={field.onChange}
+            onSearch={search}
+            label="Author"
+            placeholder="Search authors..."
+            error={error}
+          />
+        )}
+      />
 
       <input type="submit" />
     </form>

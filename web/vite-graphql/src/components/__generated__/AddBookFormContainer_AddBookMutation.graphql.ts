@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<e80112ab405dd056e6481ba30633704c>>
+ * @generated SignedSource<<36bc467cf543d18f4ffe095c3479ea02>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -14,6 +14,7 @@ export type AddBookInput = {
   input: BookInput;
 };
 export type BookInput = {
+  authorId: string;
   title: string;
 };
 export type AddBookFormContainer_AddBookMutation$variables = {
