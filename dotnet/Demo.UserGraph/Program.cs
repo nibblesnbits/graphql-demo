@@ -1,6 +1,6 @@
-
 using Demo.Data.Books;
 using Microsoft.EntityFrameworkCore;
+using Demo.UserGraph.DataLoaders;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,7 +12,9 @@ builder
     .AddGraphQL()
     .RegisterDbContextFactory<BooksDbContext>()
     .AddTypes()
+    .AddDataLoader<AuthorsByNameSearchDataLoader>()
     .AddDbContextCursorPagingProvider()
+    .AddSorting()
     .AddMutationConventions()
     .AddGlobalObjectIdentification()
     .AddInMemorySubscriptions()
