@@ -1,8 +1,7 @@
-import { Controller, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import Autocomplete from "./Autocomplete";
 import "./Autocomplete.css";
 
 const FormSchema = z.object({

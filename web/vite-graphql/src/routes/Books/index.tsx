@@ -4,7 +4,6 @@ import BookDetails from "@/components/BookDetails";
 import BookHover from "@/components/BookHover";
 import { Suspense, useState } from "react";
 import AddBookFormContainer from "@/components/AddBookFormContainer";
-import { useCharacterAddedSubscription } from "@/subscriptions/CharacterAdded";
 import { Link } from "wouter";
 
 export default function BooksPage({ data }: Readonly<RelayRoute<BooksQuery>>) {
