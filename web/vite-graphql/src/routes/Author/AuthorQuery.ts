@@ -5,6 +5,10 @@ export const AuthorQueryDef = graphql`
     author(id: $id) {
       id
       name
+      books {
+        id
+        title
+      }
       ...AuthorDetails_author
     }
   }

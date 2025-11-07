@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<894efb775cafd9250036459cda789b89>>
+ * @generated SignedSource<<5ae16c07f498e8ab381febea3f1f8932>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -15,6 +15,10 @@ export type AuthorQuery$variables = {
 };
 export type AuthorQuery$data = {
   readonly author: {
+    readonly books: ReadonlyArray<{
+      readonly id: string;
+      readonly title: string | null | undefined;
+    }>;
     readonly id: string;
     readonly name: string;
     readonly " $fragmentSpreads": FragmentRefs<"AuthorDetails_author">;
@@ -53,6 +57,25 @@ v3 = {
   "kind": "ScalarField",
   "name": "name",
   "storageKey": null
+},
+v4 = {
+  "alias": null,
+  "args": null,
+  "concreteType": "Book",
+  "kind": "LinkedField",
+  "name": "books",
+  "plural": true,
+  "selections": [
+    (v2/*: any*/),
+    {
+      "alias": null,
+      "args": null,
+      "kind": "ScalarField",
+      "name": "title",
+      "storageKey": null
+    }
+  ],
+  "storageKey": null
 };
 return {
   "fragment": {
@@ -71,6 +94,7 @@ return {
         "selections": [
           (v2/*: any*/),
           (v3/*: any*/),
+          (v4/*: any*/),
           {
             "args": null,
             "kind": "FragmentSpread",
@@ -99,41 +123,23 @@ return {
         "selections": [
           (v2/*: any*/),
           (v3/*: any*/),
-          {
-            "alias": null,
-            "args": null,
-            "concreteType": "Book",
-            "kind": "LinkedField",
-            "name": "books",
-            "plural": true,
-            "selections": [
-              (v2/*: any*/),
-              {
-                "alias": null,
-                "args": null,
-                "kind": "ScalarField",
-                "name": "title",
-                "storageKey": null
-              }
-            ],
-            "storageKey": null
-          }
+          (v4/*: any*/)
         ],
         "storageKey": null
       }
     ]
   },
   "params": {
-    "cacheID": "4d7fc0ca83aa70afa8a0b8a4906fad8a",
+    "cacheID": "9c40852eb21ff6d82778efc114e92f95",
     "id": null,
     "metadata": {},
     "name": "AuthorQuery",
     "operationKind": "query",
-    "text": "query AuthorQuery(\n  $id: ID!\n) {\n  author(id: $id) {\n    id\n    name\n    ...AuthorDetails_author\n  }\n}\n\nfragment AuthorDetails_author on Author {\n  id\n  name\n  books {\n    id\n    title\n  }\n}\n"
+    "text": "query AuthorQuery(\n  $id: ID!\n) {\n  author(id: $id) {\n    id\n    name\n    books {\n      id\n      title\n    }\n    ...AuthorDetails_author\n  }\n}\n\nfragment AuthorDetails_author on Author {\n  id\n  name\n  books {\n    id\n    title\n  }\n}\n"
   }
 };
 })();
 
-(node as any).hash = "40f7ab53bb9c70f88e43e22ce7dbbf14";
+(node as any).hash = "e989d85e47c4d630d5b1ce4beffb9fb3";
 
 export default node;

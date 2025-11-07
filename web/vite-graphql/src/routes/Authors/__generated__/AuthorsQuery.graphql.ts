@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<7c6a1fd2ed241d916d6a32379217b096>>
+ * @generated SignedSource<<193b9b7b41def6c46fa53472e0834af8>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -13,6 +13,10 @@ import { FragmentRefs } from "relay-runtime";
 export type AuthorsQuery$variables = Record<PropertyKey, never>;
 export type AuthorsQuery$data = {
   readonly authors: ReadonlyArray<{
+    readonly books: ReadonlyArray<{
+      readonly id: string;
+      readonly title: string | null | undefined;
+    }>;
     readonly id: string;
     readonly " $fragmentSpreads": FragmentRefs<"AuthorDetails_author">;
   }>;
@@ -28,6 +32,25 @@ var v0 = {
   "args": null,
   "kind": "ScalarField",
   "name": "id",
+  "storageKey": null
+},
+v1 = {
+  "alias": null,
+  "args": null,
+  "concreteType": "Book",
+  "kind": "LinkedField",
+  "name": "books",
+  "plural": true,
+  "selections": [
+    (v0/*: any*/),
+    {
+      "alias": null,
+      "args": null,
+      "kind": "ScalarField",
+      "name": "title",
+      "storageKey": null
+    }
+  ],
   "storageKey": null
 };
 return {
@@ -50,7 +73,8 @@ return {
             "args": null,
             "kind": "FragmentSpread",
             "name": "AuthorDetails_author"
-          }
+          },
+          (v1/*: any*/)
         ],
         "storageKey": null
       }
@@ -80,41 +104,23 @@ return {
             "name": "name",
             "storageKey": null
           },
-          {
-            "alias": null,
-            "args": null,
-            "concreteType": "Book",
-            "kind": "LinkedField",
-            "name": "books",
-            "plural": true,
-            "selections": [
-              (v0/*: any*/),
-              {
-                "alias": null,
-                "args": null,
-                "kind": "ScalarField",
-                "name": "title",
-                "storageKey": null
-              }
-            ],
-            "storageKey": null
-          }
+          (v1/*: any*/)
         ],
         "storageKey": null
       }
     ]
   },
   "params": {
-    "cacheID": "d3fa290df63cda7531e748121436b43f",
+    "cacheID": "75e469bc4c2d587ad7def935d9eac855",
     "id": null,
     "metadata": {},
     "name": "AuthorsQuery",
     "operationKind": "query",
-    "text": "query AuthorsQuery {\n  authors {\n    id\n    ...AuthorDetails_author\n  }\n}\n\nfragment AuthorDetails_author on Author {\n  id\n  name\n  books {\n    id\n    title\n  }\n}\n"
+    "text": "query AuthorsQuery {\n  authors {\n    id\n    ...AuthorDetails_author\n    books {\n      id\n      title\n    }\n  }\n}\n\nfragment AuthorDetails_author on Author {\n  id\n  name\n  books {\n    id\n    title\n  }\n}\n"
   }
 };
 })();
 
-(node as any).hash = "fffa5cd22511df9fae159fec1ddb626d";
+(node as any).hash = "31c8f30cbbe4c48fb12beef7e9b6336e";
 
 export default node;

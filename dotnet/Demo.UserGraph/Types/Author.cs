@@ -12,7 +12,9 @@ public class AuthorObjectType : ObjectType<Author> {
             .ResolveNode(async (context, id) => {
                 var factory = context.Service<IDbContextFactory<BooksDbContext>>();
                 using var dbContext = await factory.CreateDbContextAsync();
-                return await dbContext.Authors.FindAsync([id]);
+                var author = await dbContext.Authors.FindAsync([id]);
+                await dbContext.Entry(author).Collection(a => a.Books).LoadAsync();
+                return author;
             });
     }
 }

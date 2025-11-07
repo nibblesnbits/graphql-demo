@@ -8,8 +8,10 @@ import type {
   AddAuthorFormContainer_AddAuthorMutation,
   AddAuthorFormContainer_AddAuthorMutation$variables,
 } from "./__generated__/AddAuthorFormContainer_AddAuthorMutation.graphql";
+import { useLocation } from "wouter";
 
 export default function AddAuthorFormContainer() {
+  const [, navTo] = useLocation();
   const handleSubmitForm = (data: CreateAuthorFormInputs) => {
     addAuthor({
       input: {
@@ -42,7 +44,9 @@ export default function AddAuthorFormContainer() {
         setAddAuthorErrors([error]);
       },
       onCompleted({ addAuthor: { author } }) {
-        console.log("Author created with ID:", author?.id);
+        if (author) {
+          navTo(`/author/${encodeURIComponent(author.id)}`);
+        }
       },
     });
   };

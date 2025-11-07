@@ -16,8 +16,13 @@ public class Query {
     public IQueryable<Author> GetAuthors(BooksDbContext dbContext) =>
         dbContext.Authors;
 
-    public async Task<Author?> GetAuthor([ID<Author>] Guid id, BooksDbContext dbContext) =>
-        await dbContext.Authors.FindAsync([id]);
+    public async Task<Author?> GetAuthor([ID<Author>] Guid id, BooksDbContext dbContext) {
+        var author = await dbContext.Authors.FindAsync([id]);
+        if (author is not null) {
+            await dbContext.Entry(author).Collection(a => a.Books).LoadAsync();
+        }
+        return author;
+    }
 
     [UsePaging(typeof(CharacterObjectType))]
     public IQueryable<Character> GetCharacters(BooksDbContext dbContext) =>

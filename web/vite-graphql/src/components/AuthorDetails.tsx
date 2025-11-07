@@ -24,7 +24,11 @@ export default function AuthorDetails(props: {
         <tbody>
           {data.books.map((book) => {
             if (!book) {
-              return null;
+              return (
+                <tr>
+                  <td>No books... yet!</td>
+                </tr>
+              );
             }
 
             return (
