@@ -1,4 +1,5 @@
-import { useEffect, useRef, useState } from "react";
+import { useDebounce } from "@/hooks/useDebounce";
+import { useEffect, useRef, useState, useTransition } from "react";
 import type { FieldError } from "react-hook-form";
 
 export interface AutocompleteOption {
@@ -25,32 +26,37 @@ export default function Autocomplete({
 }: AutocompleteProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [results, setResults] = useState<AutocompleteOption[]>([]);
-  const [isLoading, setIsLoading] = useState(false);
   const [searchTerm, setSearchTerm] = useState(value);
   const [selectedIndex, setSelectedIndex] = useState(-1);
   const containerRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const handleSearch = async (term: string) => {
+  const [isPending, startTransition] = useTransition();
+
+  const debouncedSearch = useDebounce((term: string) => {
+    startTransition(async () => {
+      try {
+        const data = await onSearch(term);
+        setResults(data);
+        setIsOpen(true);
+        setSelectedIndex(-1);
+      } catch (error) {
+        console.error("Search failed:", error);
+        setResults([]);
+      }
+    });
+  }, 300);
+
+  const handleSearch = (term: string) => {
     setSearchTerm(term);
+
     if (term.trim() === "") {
       setResults([]);
       setIsOpen(false);
       return;
     }
 
-    setIsLoading(true);
-    try {
-      const data = await onSearch(term);
-      setResults(data);
-      setIsOpen(true);
-      setSelectedIndex(-1);
-    } catch (error) {
-      console.error("Search failed:", error);
-      setResults([]);
-    } finally {
-      setIsLoading(false);
-    }
+    debouncedSearch(term);
   };
 
   const handleSelectOption = (option: AutocompleteOption) => {
@@ -136,7 +142,7 @@ export default function Autocomplete({
           className={`autocomplete-input ${error ? "error" : ""}`}
           autoComplete="off"
         />
-        {isLoading && <span className="autocomplete-loader">Loading...</span>}
+        {isPending && <span className="autocomplete-loader">Loading...</span>}
       </div>
 
       {error && (
@@ -162,7 +168,7 @@ export default function Autocomplete({
         </ul>
       )}
 
-      {isOpen && searchTerm && results.length === 0 && !isLoading && (
+      {isOpen && searchTerm && results.length === 0 && !isPending && (
         <div className="autocomplete-no-results">No results found</div>
       )}
     </div>

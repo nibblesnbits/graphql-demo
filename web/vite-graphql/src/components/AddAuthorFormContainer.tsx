@@ -6,6 +6,7 @@ import { useMutation } from "react-relay";
 import { graphql } from "relay-runtime";
 import type {
   AddAuthorFormContainer_AddAuthorMutation,
+  AddAuthorFormContainer_AddAuthorMutation$data,
   AddAuthorFormContainer_AddAuthorMutation$variables,
 } from "./__generated__/AddAuthorFormContainer_AddAuthorMutation.graphql";
 
@@ -14,15 +15,23 @@ export default function AddAuthorFormContainer({
 }: {
   onCompleted?: (author: { id: string }) => void;
 }) {
-  const handleSubmitForm = (data: CreateAuthorFormInputs) => {
-    addAuthor({
-      input: {
-        ...data,
-      },
-    });
+  const [addAuthorErrors, setAddAuthorErrors] = useState<Error>();
+
+  const handleSubmitForm = async (data: CreateAuthorFormInputs) => {
+    try {
+      const result = await addAuthor({
+        input: {
+          ...data,
+        },
+      });
+      if (result.addAuthor.author) {
+        onCompleted?.(result.addAuthor.author);
+      }
+    } catch (error) {
+      setAddAuthorErrors(error as Error);
+    }
   };
 
-  const [addAuthorErrors, setAddAuthorErrors] = useState<Error[]>([]);
   const [addAuthorMutation] =
     useMutation<AddAuthorFormContainer_AddAuthorMutation>(graphql`
       mutation AddAuthorFormContainer_AddAuthorMutation(
@@ -40,33 +49,29 @@ export default function AddAuthorFormContainer({
   const addAuthor = (
     addAuthorInput: AddAuthorFormContainer_AddAuthorMutation$variables["addAuthorInput"]
   ) => {
-    addAuthorMutation({
-      variables: { addAuthorInput },
-      onError(error) {
-        setAddAuthorErrors([error]);
-      },
-      onCompleted({ addAuthor: { author } }) {
-        if (author) {
-          onCompleted?.(author);
-        }
-      },
-    });
+    return new Promise<AddAuthorFormContainer_AddAuthorMutation$data>(
+      (res, rej) => {
+        addAuthorMutation({
+          variables: { addAuthorInput },
+          onError: rej,
+          onCompleted: res,
+        });
+      }
+    );
   };
 
   return (
     <div>
       <h1>Create a New Author</h1>
       <CreateAuthorForm onSubmitForm={handleSubmitForm} />
-      {addAuthorErrors.length > 0 && (
-        <div>
-          <h2>Errors:</h2>
-          <ul>
-            {addAuthorErrors.map((error, index) => (
-              <li key={index}>{error.message}</li>
-            ))}
-          </ul>
-        </div>
-      )}
+      <div>
+        {addAuthorErrors && (
+          <div>
+            <h2>Errors:</h2>
+            <p>{addAuthorErrors.message}</p>
+          </div>
+        )}
+      </div>
     </div>
   );
 }

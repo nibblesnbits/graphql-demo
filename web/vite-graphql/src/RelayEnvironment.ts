@@ -59,7 +59,7 @@ const subscribe: SubscribeFunction = (operation, variables) => {
         query: operation.text!,
         variables,
       },
-      sink as Sink<ExecutionResult<Record<string, unknown>, unknown>> // ts-ignore
+      sink as Sink<ExecutionResult<Record<string, unknown>, unknown>>
     );
   });
 };

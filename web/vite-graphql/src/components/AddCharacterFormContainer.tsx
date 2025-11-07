@@ -6,6 +6,7 @@ import { useMutation } from "react-relay";
 import { graphql } from "relay-runtime";
 import type {
   AddCharacterFormContainer_AddCharacterMutation,
+  AddCharacterFormContainer_AddCharacterMutation$data,
   AddCharacterFormContainer_AddCharacterMutation$variables,
 } from "./__generated__/AddCharacterFormContainer_AddCharacterMutation.graphql";
 
@@ -16,15 +17,22 @@ export default function AddCharacterFormContainer({
   bookId: string;
   onCompleted?: (character: { id: string }) => void;
 }) {
-  const handleSubmitForm = (data: CreateCharacterFormInputs) => {
-    addCharacter({
-      input: {
-        ...data,
-      },
-    });
+  const [addCharacterError, setAddCharacterError] = useState<Error>();
+  const handleSubmitForm = async (data: CreateCharacterFormInputs) => {
+    try {
+      const result = await addCharacter({
+        input: {
+          ...data,
+        },
+      });
+      if (result.addCharacter.character?.id) {
+        onCompleted?.(result.addCharacter.character);
+      }
+    } catch (error) {
+      setAddCharacterError(error as Error);
+    }
   };
 
-  const [addCharacterErrors, setAddCharacterErrors] = useState<Error[]>([]);
   const [addCharacterMutation] =
     useMutation<AddCharacterFormContainer_AddCharacterMutation>(
       graphql`
@@ -44,38 +52,32 @@ export default function AddCharacterFormContainer({
   const addCharacter = (
     addCharacterInput: AddCharacterFormContainer_AddCharacterMutation$variables["addCharacterInput"]
   ) => {
-    addCharacterMutation({
-      variables: {
-        addCharacterInput: {
-          input: {
-            name: addCharacterInput.input.name,
-            bookId,
+    return new Promise<AddCharacterFormContainer_AddCharacterMutation$data>(
+      (res, rej) => {
+        addCharacterMutation({
+          variables: {
+            addCharacterInput: {
+              input: {
+                name: addCharacterInput.input.name,
+                bookId,
+              },
+            },
           },
-        },
-      },
-      onError(error) {
-        setAddCharacterErrors([error]);
-      },
-      onCompleted({ addCharacter: { character } }) {
-        if (character?.id) {
-          onCompleted?.(character);
-        }
-      },
-    });
+          onError: rej,
+          onCompleted: res,
+        });
+      }
+    );
   };
 
   return (
     <div>
       <h1>Create a New Character</h1>
       <CreateCharacterForm onSubmitForm={handleSubmitForm} />
-      {addCharacterErrors.length > 0 && (
+      {addCharacterError && (
         <div>
           <h2>Errors:</h2>
-          <ul>
-            {addCharacterErrors.map((error, index) => (
-              <li key={index}>{error.message}</li>
-            ))}
-          </ul>
+          <p>{addCharacterError.message}</p>
         </div>
       )}
     </div>

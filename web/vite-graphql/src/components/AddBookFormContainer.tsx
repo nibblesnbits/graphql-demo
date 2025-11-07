@@ -4,6 +4,7 @@ import { useMutation, useRelayEnvironment } from "react-relay";
 import { fetchQuery, graphql } from "relay-runtime";
 import type {
   AddBookFormContainer_AddBookMutation,
+  AddBookFormContainer_AddBookMutation$data,
   AddBookFormContainer_AddBookMutation$variables,
 } from "./__generated__/AddBookFormContainer_AddBookMutation.graphql";
 import { AuthorsQueryDef } from "@/queries/AuthorSearchQuery";
@@ -18,15 +19,20 @@ export default function AddBookFormContainer({
 }) {
   const relayEnvironment = useRelayEnvironment();
 
-  const handleSubmitForm = (data: CreateBookFormInputs) => {
-    addBook({
-      input: {
-        ...data,
-      },
-    });
+  const [addBookError, setAddBookError] = useState<Error>();
+  const handleSubmitForm = async (data: CreateBookFormInputs) => {
+    try {
+      const result = await addBook({
+        input: data,
+      });
+      if (result.addBook.book?.id) {
+        onCompleted?.(result.addBook.book);
+      }
+    } catch (error) {
+      setAddBookError(error as Error);
+    }
   };
 
-  const [addBookErrors, setAddBookErrors] = useState<Error[]>([]);
   const [addBookMutation] = useMutation<AddBookFormContainer_AddBookMutation>(
     graphql`
       mutation AddBookFormContainer_AddBookMutation(
@@ -45,19 +51,15 @@ export default function AddBookFormContainer({
   const addBook = (
     addBookInput: AddBookFormContainer_AddBookMutation$variables["addBookInput"]
   ) => {
-    addBookMutation({
-      variables: {
-        addBookInput,
-      },
-      onError(error) {
-        setAddBookErrors([error]);
-      },
-      onCompleted({ addBook: { book } }) {
-        if (book?.id) {
-          onCompleted?.(book);
-        }
-      },
-    });
+    return new Promise<AddBookFormContainer_AddBookMutation$data>(
+      (res, rej) => {
+        addBookMutation({
+          variables: { addBookInput },
+          onError: rej,
+          onCompleted: res,
+        });
+      }
+    );
   };
 
   const searchAuthor = (term: string) => {
@@ -73,7 +75,7 @@ export default function AddBookFormContainer({
             }))
           );
         },
-        error: (err: Error) => rej(err),
+        error: rej,
       });
     });
   };
@@ -86,14 +88,10 @@ export default function AddBookFormContainer({
         search={searchAuthor}
         authorId={authorId}
       />
-      {addBookErrors.length > 0 && (
+      {addBookError && (
         <div>
-          <h2>Errors:</h2>
-          <ul>
-            {addBookErrors.map((error, index) => (
-              <li key={index}>{error.message}</li>
-            ))}
-          </ul>
+          <h2>Error:</h2>
+          <p>{addBookError.message}</p>
         </div>
       )}
     </div>
